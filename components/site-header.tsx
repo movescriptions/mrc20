@@ -1,3 +1,5 @@
+'use client'
+
 import Link from "next/link"
 
 import { siteConfig } from "@/config/site"
@@ -5,6 +7,10 @@ import { buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
+import {
+  ConnectButton,
+  ErrorCode,
+} from '@suiet/wallet-kit'
 
 export function SiteHeader() {
   return (
@@ -44,6 +50,21 @@ export function SiteHeader() {
               </div>
             </Link>
             <ThemeToggle />
+            <div className="flex items-center gap-x-5 md:gap-x-8">
+            <ConnectButton
+              onConnectError={(error) => {
+                if (
+                  error.code === ErrorCode.WALLET__CONNECT_ERROR__USER_REJECTED
+                ) {
+                  console.warn(
+                    'user rejected the connection to ' + error.details?.wallet,
+                  )
+                } else {
+                  console.warn('unknown connect error: ', error)
+                }
+              }}
+            />
+          </div>
           </nav>
         </div>
       </div>
