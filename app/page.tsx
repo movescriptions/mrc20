@@ -1,39 +1,56 @@
+"use client"
+
 import Link from "next/link"
 
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
+import { useState } from "react"
+import { useWallet } from "@suiet/wallet-kit"
+import { TransactionBlock } from '@mysten/sui.js/transactions'
+
+const PACKAGE_ID = '0xa232b45b34e9048af210a78648ac01b178952270ae0b3758768528685c6c559f'
+const DEPLOY_RECORD = '0xdcae58ee3c3829e10447c33df8f3ac1fabc5fa4d387be5edebfa641dd748466e'
 
 export default function IndexPage() {
+  const { connected, address, signAndExecuteTransactionBlock } = useWallet()
+  const [refreshData, setRefreshData] = useState(false)
+
+  const deploy_move = async () => {
+    if (!connected) return
+
+    // define a programmable transaction
+    const tx = new TransactionBlock()
+
+    tx.moveCall({
+      target: `${PACKAGE_ID}::deploy`,
+      arguments: [
+        tx.object(DEPLOY_RECORD),
+        tx.pure("move"),
+        tx.pure(21000000),
+        tx.pure(1000),
+        tx.pure(0),
+        tx.pure("move")
+      ],
+      typeArguments: [],
+    })
+
+    try {
+      // execute the programmable transaction
+      const resData = await signAndExecuteTransactionBlock({
+        // @ts-ignore
+        transactionBlock: tx,
+      })
+      console.log('register dao successfully!', resData)
+    } catch (e) {
+      console.error('register dao failed', e)
+    }
+  }
+  
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <div className="flex max-w-[980px] flex-col items-start gap-2">
-        <h1 className="text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-          Beautifully designed components <br className="hidden sm:inline" />
-          built with Radix UI and Tailwind CSS.
-        </h1>
-        <p className="max-w-[700px] text-lg text-muted-foreground">
-          Accessible and customizable components that you can copy and paste
-          into your apps. Free. Open Source. And Next.js 13 Ready.
-        </p>
-      </div>
-      <div className="flex gap-4">
-        <Link
-          href={siteConfig.links.docs}
-          target="_blank"
-          rel="noreferrer"
-          className={buttonVariants()}
-        >
-          Documentation
-        </Link>
-        <Link
-          target="_blank"
-          rel="noreferrer"
-          href={siteConfig.links.github}
-          className={buttonVariants({ variant: "outline" })}
-        >
-          GitHub
-        </Link>
-      </div>
+      <Button onClick={deploy_move}>Deploy</Button>
+      <Button onClick={deploy_move}>Mint</Button>
     </section>
   )
 }
