@@ -9,6 +9,14 @@ export const siteConfig = {
       title: "Home",
       href: "/",
     },
+    {
+      title: "Marketplace(coming soon)",
+      href: "/",
+    },
+    {
+      title: "My Assets(coming soon)",
+      href: "/",
+    },
   ],
   links: {
     twitter: "https://twitter.com/MoveScription",
