@@ -14,6 +14,8 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.1.1",
     "@radix-ui/react-slot": "^1.0.2",
     "@suiet/wallet-kit": "^0.2.22",
     "class-variance-authority": "^0.4.0",
