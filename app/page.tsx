@@ -43,15 +43,48 @@ export default function IndexPage() {
         // @ts-ignore
         transactionBlock: tx,
       })
-      console.log('register dao successfully!', resData)
+      console.log('deploy successfully!', resData)
     } catch (e) {
-      console.error('register dao failed', e)
+      console.error('deploy failed', e)
+    }
+  }
+
+  const mint = async (tick: string) => {
+    if (!connected) return
+
+    // define a programmable transaction
+    const tx = new TransactionBlock()
+    const [coin] = tx.splitCoins(tx.gas, [
+      tx.pure(0),
+    ])
+
+    tx.moveCall({
+      target: `${PACKAGE_ID}::inscription::mint`,
+      arguments: [
+        tx.object(DEPLOY_RECORD),
+        tx.pure(tick),
+        tx.pure(1000),
+        coin,
+        tx.pure("0x6")
+      ],
+      typeArguments: [],
+    })
+
+    try {
+      // execute the programmable transaction
+      const resData = await signAndExecuteTransactionBlock({
+        // @ts-ignore
+        transactionBlock: tx,
+      })
+      console.log(`mint ${tick} successfully!`, resData)
+    } catch (e) {
+      console.error(`mint ${tick} failed`, e)
     }
   }
   
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <TickList deploy_tick={deploy_move} />
+      <TickList deploy_tick={deploy_move} mint={mint} />
     </section>
   )
 }
