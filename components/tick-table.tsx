@@ -2,23 +2,6 @@ import { Button } from "./ui/button"
 import thousandify from 'thousandify'
 import moment from "moment"
 
-const ticks = [
-    {
-      name: 'move',
-      deploy_time: '2021-10-10',
-      progress: 80,
-      holders: 10000,
-      transactions: 100000,
-  },
-  {
-    name: 'tests',
-    deploy_time: '2021-10-10',
-    progress: 80,
-    holders: 10000,
-    transactions: 100000,
-  }
-]
-
 interface TickTableProps {
   data: any[]
   deploy_tick: () => void
@@ -33,6 +16,7 @@ export default function TickTable(props: TickTableProps) {
           </div>
           <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
             <Button
+              disabled
               type="button"
               className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               onClick={props.deploy_tick}

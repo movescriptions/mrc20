@@ -12,7 +12,6 @@ import { getOwnedObjects, getSuiObject } from "@/lib/apis";
 import { ReloadIcon } from "@radix-ui/react-icons"
 
 const PACKAGE_ID = '0xe586ecee5a848f304db9504ffe2ba529623047467edeb0d3fe1fe486a8b8b04c'
-const DEPLOY_RECORD = '0x810790bf87223f5733cd6937d42ed9186c79d3f7f0bde98d18565054d526644f'
 const TICK_RECORD = '0xe0420fd06b5e14c1d79dab3542aa869deb9a2dd0469ef155e1a85453da1a034c'
 
 export default function Home({ params }: { params: { slug: string } }) {
@@ -156,11 +155,9 @@ export default function Home({ params }: { params: { slug: string } }) {
           <div className="flex flex-row justify-center">
             {loading ? <Button disabled>
       <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-      Minting
+      Wait for a moment
     </Button> : <Button size={'lg'} onClick={() => mint(name)}>Mint</Button>}
           </div>
-          
-          <EpochTable />
     </section>
   )
 }
