@@ -24,10 +24,10 @@ export default function TickTable(props: TickTableProps) {
           </div>
           <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
             <Button
+              disabled
               type="button"
               className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               onClick={props.deploy_tick}
-              disabled
             >
               Deploy
             </Button>
@@ -73,13 +73,14 @@ export default function TickTable(props: TickTableProps) {
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{tick.holders}</td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{tick.transactions}</td>
                       <td className="relative flex justify-end whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 lg:pr-8">
+                        <a href={`/ticks/${tick.name}`}>
                         <Button
                           type="button"
                           className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                          onClick={() => props.mint(tick.name)}
                         >
                           Go to Mint
-                        </Button>
+                          </Button>
+                          </a>
                       </td>
                     </tr>
                   ))}
