@@ -44,7 +44,7 @@ export default function Home({ params }: { params: { name: string } }) {
                     const data = res.data && res.data && res.data?.content ? res.data?.content.fields : null
                     if (data) {
                         tickData[0]['value'] = `${parseInt(data.total_transactions ?? 0)*parseInt(data.mint_fee)/1000000000}`
-                        tickData[1]['value'] = `${data.current_epoch}/${data.epoch_count}`
+                        tickData[1]['value'] = `${parseInt(data.current_epoch)+1}/${data.epoch_count}`
                         tickData[2]['value'] = `${data.total_transactions ?? 0}`
                         setMintFee(parseInt(data.mint_fee)/1000000000)
                         // @ts-ignore
@@ -125,7 +125,7 @@ export default function Home({ params }: { params: { name: string } }) {
                 const data = res.data && res.data && res.data?.content ? res.data?.content.fields : null
                 if (data) {
                     tickData[0]['value'] = `${parseInt(data.total_transactions ?? 0)*parseInt(data.mint_fee)/1000000000}`
-                    tickData[1]['value'] = `${data.current_epoch}/${data.epoch_count}`
+                    tickData[1]['value'] = `${parseInt(data.current_epoch)+1}/${data.epoch_count}`
                     tickData[2]['value'] = `${data.total_transactions ?? 0}`
                     // @ts-ignore
                     setTickInfo(tickData)
