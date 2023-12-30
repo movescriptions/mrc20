@@ -12,7 +12,7 @@ import { getOwnedObjects, getSuiDynamicFields, getSuiObject } from "@/lib/apis";
 import { ReloadIcon } from "@radix-ui/react-icons"
 import { PACKAGE_ID, DEPLOY_RECORD } from "@/config/site";
 
-export default function Home({ params }: { params: { slug: string } }) {
+export default function Home({ params }: { params: { name: string } }) {
     const { connected, address, signAndExecuteTransactionBlock } = useWallet()
     const [refreshData, setRefreshData] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -20,6 +20,7 @@ export default function Home({ params }: { params: { slug: string } }) {
     const [tickInfo, setTickInfo] = useState([])
     const [userTickInfo, setUserTickInfo] = useState([])
     const [loadingUserTick, setLoadingUserTick] = useState(false)
+    const [tickRecord, setTickRecord] = useState('')
     const name = params.name
 
     useEffect(() => {
@@ -28,6 +29,7 @@ export default function Home({ params }: { params: { slug: string } }) {
             console.log(res)  
             const tick = res.find((item: any) => item.tick.toLowerCase() == name.toLowerCase())
             if (tick) {
+                setTickRecord(tick.id.id)
                 const tickData = [
                     { id: 1, name: 'Total SUI Locked', value: '' },
                     { id: 2, name: 'Current Epoch', value: '' },
@@ -35,13 +37,14 @@ export default function Home({ params }: { params: { slug: string } }) {
                 ]
                 setLoading(true)
                 getSuiObject(tick.id.id).then((res) => {
-                    console.dir(res.data?.content.fields)
+                    // @ts-ignore
                     const data = res.data && res.data && res.data?.content ? res.data?.content.fields : null
                     if (data) {
                         tickData[0]['value'] = `${parseInt(data.total_transactions ?? 0)*parseInt(data.mint_fee)/1000000000}`
                         tickData[1]['value'] = `${data.current_epoch}/${data.epoch_count}`
                         tickData[2]['value'] = `${data.total_transactions ?? 0}`
                         setMintFee(parseInt(data.mint_fee)/1000000000)
+                        // @ts-ignore
                         setTickInfo(tickData)
                     }
                     setLoading(false)
@@ -69,6 +72,7 @@ export default function Home({ params }: { params: { slug: string } }) {
                     const ownedTicks = data.filter((item: any) => item.data && item.data.content && item.data.content.type == `${PACKAGE_ID}::inscription::Inscription` && item.data.content.fields.tick.toLowerCase() == name.toLowerCase())
                     userStats[0]['value'] = `${ownedTicks.length}`
                     userStats[1]['value'] = `${ownedTicks.length*mintFee}`
+                    // @ts-ignore
                     setUserTickInfo(userStats)
                 }
                 setLoadingUserTick(false)
@@ -87,13 +91,14 @@ export default function Home({ params }: { params: { slug: string } }) {
                 { id: 3, name: 'Total Transactions', value: '' },
             ]
             setLoading(true)
-            getSuiObject(TICK_RECORD).then((res) => {
-                console.dir(res.data?.content.fields)
+            getSuiObject(tickRecord).then((res) => {
+                // @ts-ignore
                 const data = res.data && res.data && res.data?.content ? res.data?.content.fields : null
                 if (data) {
                     tickData[0]['value'] = `${parseInt(data.total_transactions ?? 0)*parseInt(data.mint_fee)/1000000000}`
                     tickData[1]['value'] = `${data.current_epoch}/${data.epoch_count}`
                     tickData[2]['value'] = `${data.total_transactions ?? 0}`
+                    // @ts-ignore
                     setTickInfo(tickData)
                 }
                 setLoading(false)
@@ -109,6 +114,7 @@ export default function Home({ params }: { params: { slug: string } }) {
                 const data = res.data
                 if (data && data.length) {
                     const ownedTicks = data.filter((item: any) => item.data && item.data.content && item.data.content.type == `${PACKAGE_ID}::inscription::Inscription` && item.data.content.fields.tick.toLowerCase() == name.toLowerCase())
+                    // @ts-ignore
                     setUserTickInfo(ownedTicks)
                 }
                 setLoadingUserTick(false)
@@ -117,7 +123,7 @@ export default function Home({ params }: { params: { slug: string } }) {
                 setLoadingUserTick(false)
             })
         }
-    }, [address, refreshData])
+    }, [address, tickRecord, refreshData])
 
     const mint = async (tick: string) => {
         if (!connected) return
@@ -132,7 +138,7 @@ export default function Home({ params }: { params: { slug: string } }) {
         tx.moveCall({
           target: `${PACKAGE_ID}::inscription::mint`,
           arguments: [
-            tx.object(TICK_RECORD),
+            tx.object(tickRecord),
             tx.pure(tick),
             coin,
             tx.pure("0x6")

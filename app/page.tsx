@@ -22,7 +22,8 @@ export default function IndexPage() {
   useEffect(() => {
     setLoading(true)
     getSuiDynamicFields(DEPLOY_RECORD, 'record').then((res) => {
-        console.log(res)  
+      console.log(res) 
+        // @ts-ignore
         setTicks(res)
         setLoading(false)
     }).catch((err) => {
@@ -35,6 +36,7 @@ export default function IndexPage() {
     if (refreshData) {
       setLoading(true)
       getSuiDynamicFields(DEPLOY_RECORD, 'record').then((res) => {
+        // @ts-ignore
         setTicks(res)
         setLoading(false)
         setRefreshData(false)

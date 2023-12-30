@@ -25,6 +25,7 @@ export const getSuiDynamicFields = async (
   const result = []
   for (const key of collection_keys.data) {
     const obj = await getSuiObject(key.objectId)
+    // @ts-ignore
     const real_obj = await getSuiObject(obj.data?.content?.fields.value)
     // @ts-ignore
     result.push(real_obj.data?.content?.fields)

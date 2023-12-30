@@ -1,4 +1,5 @@
 import { Button } from "./ui/button"
+// @ts-ignore
 import thousandify from 'thousandify'
 import moment from "moment"
 
