@@ -8,11 +8,9 @@ import UserStats from "@/components/user-stats"
 import { useEffect, useState } from "react"
 import { useWallet } from "@suiet/wallet-kit"
 import { TransactionBlock } from '@mysten/sui.js/transactions'
-import { getOwnedObjects, getSuiObject } from "@/lib/apis";
+import { getOwnedObjects, getSuiDynamicFields, getSuiObject } from "@/lib/apis";
 import { ReloadIcon } from "@radix-ui/react-icons"
-
-const PACKAGE_ID = '0xe586ecee5a848f304db9504ffe2ba529623047467edeb0d3fe1fe486a8b8b04c'
-const TICK_RECORD = '0xe0420fd06b5e14c1d79dab3542aa869deb9a2dd0469ef155e1a85453da1a034c'
+import { PACKAGE_ID, DEPLOY_RECORD } from "@/config/site";
 
 export default function Home({ params }: { params: { slug: string } }) {
     const { connected, address, signAndExecuteTransactionBlock } = useWallet()
@@ -25,23 +23,33 @@ export default function Home({ params }: { params: { slug: string } }) {
     const name = params.name
 
     useEffect(() => {
-        const tickData = [
-            { id: 1, name: 'Total SUI Locked', value: '' },
-            { id: 2, name: 'Current Epoch', value: '' },
-            { id: 3, name: 'Total Transactions', value: '' },
-        ]
         setLoading(true)
-        getSuiObject(TICK_RECORD).then((res) => {
-            console.dir(res.data?.content.fields)
-            const data = res.data && res.data && res.data?.content ? res.data?.content.fields : null
-            if (data) {
-                tickData[0]['value'] = `${parseInt(data.total_transactions ?? 0)*parseInt(data.mint_fee)/1000000000}`
-                tickData[1]['value'] = `${data.current_epoch}/${data.epoch_count}`
-                tickData[2]['value'] = `${data.total_transactions ?? 0}`
-                setMintFee(parseInt(data.mint_fee)/1000000000)
-                setTickInfo(tickData)
+        getSuiDynamicFields(DEPLOY_RECORD, 'record').then((res) => {
+            console.log(res)  
+            const tick = res.find((item: any) => item.tick.toLowerCase() == name.toLowerCase())
+            if (tick) {
+                const tickData = [
+                    { id: 1, name: 'Total SUI Locked', value: '' },
+                    { id: 2, name: 'Current Epoch', value: '' },
+                    { id: 3, name: 'Total Transactions', value: '' },
+                ]
+                setLoading(true)
+                getSuiObject(tick.id.id).then((res) => {
+                    console.dir(res.data?.content.fields)
+                    const data = res.data && res.data && res.data?.content ? res.data?.content.fields : null
+                    if (data) {
+                        tickData[0]['value'] = `${parseInt(data.total_transactions ?? 0)*parseInt(data.mint_fee)/1000000000}`
+                        tickData[1]['value'] = `${data.current_epoch}/${data.epoch_count}`
+                        tickData[2]['value'] = `${data.total_transactions ?? 0}`
+                        setMintFee(parseInt(data.mint_fee)/1000000000)
+                        setTickInfo(tickData)
+                    }
+                    setLoading(false)
+                }).catch((err) => {
+                    console.log(err)
+                    setLoading(false)
+                })
             }
-            setLoading(false)
         }).catch((err) => {
             console.log(err)
             setLoading(false)
