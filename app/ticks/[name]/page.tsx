@@ -63,7 +63,7 @@ export default function Home({ params }: { params: { name: string } }) {
     }, [])
 
     useEffect(() => {
-        if (address) {
+        if (address && mintFee) {
             const userStats = [
                 { id: 1, name: 'Your Transactions', value: '0' },
                 { id: 2, name: 'Minted Tokens', value: '0' },
@@ -84,7 +84,7 @@ export default function Home({ params }: { params: { name: string } }) {
                 setLoadingUserTick(false)
             })
         }
-    }, [address])
+    }, [address, mintFee])
 
     useEffect(() => {
         if (address && refreshData) {
