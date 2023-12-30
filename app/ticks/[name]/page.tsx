@@ -12,6 +12,8 @@ import { getOwnedObjects, getSuiDynamicFields, getSuiObject } from "@/lib/apis";
 import { ReloadIcon } from "@radix-ui/react-icons"
 import { PACKAGE_ID, DEPLOY_RECORD } from "@/config/site";
 
+export const runtime = 'edge'
+
 export default function Home({ params }: { params: { name: string } }) {
     const { connected, address, signAndExecuteTransactionBlock } = useWallet()
     const [refreshData, setRefreshData] = useState(false)
