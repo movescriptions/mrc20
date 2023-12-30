@@ -65,8 +65,8 @@ export default function Home({ params }: { params: { name: string } }) {
     useEffect(() => {
         if (address && mintFee) {
             const userStats = [
-                { id: 1, name: 'Your Transactions', value: '0' },
-                { id: 2, name: 'Minted Tokens', value: '0' },
+                { id: 1, name: 'Your Inscriptions', value: '0' },
+                { id: 2, name: 'Locked SUI', value: '0' },
             ]
             setLoadingUserTick(true)
             getOwnedObjects(address).then((res) => {
@@ -89,8 +89,8 @@ export default function Home({ params }: { params: { name: string } }) {
     useEffect(() => {
         if (address && refreshData) {
             const userStats = [
-                { id: 1, name: 'Your Transactions', value: '0' },
-                { id: 2, name: 'Minted Tokens', value: '0' },
+                { id: 1, name: 'Your Inscriptions', value: '0' },
+                { id: 2, name: 'Locked SUI', value: '0' },
             ]
             setLoadingUserTick(true)
             getOwnedObjects(address).then((res) => {
