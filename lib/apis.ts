@@ -52,6 +52,16 @@ export const getSuiObject = (id: string) => {
   })
 }
 
+export const getOwnedObjects = (owner: string) => {
+    return client.getOwnedObjects({
+      owner,
+      options: {
+        showContent: true,
+      },
+    })
+}
+
+
 export const getSpecificCoin = async (owner: string, coinType: string) => {
   let result
   if (coinType) {

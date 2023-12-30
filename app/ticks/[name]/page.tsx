@@ -8,7 +8,7 @@ import UserStats from "@/components/user-stats"
 import { useEffect, useState } from "react"
 import { useWallet } from "@suiet/wallet-kit"
 import { TransactionBlock } from '@mysten/sui.js/transactions'
-import { getSuiObject } from "@/lib/apis";
+import { getOwnedObjects, getSuiObject } from "@/lib/apis";
 import { ReloadIcon } from "@radix-ui/react-icons"
 
 const PACKAGE_ID = '0xe586ecee5a848f304db9504ffe2ba529623047467edeb0d3fe1fe486a8b8b04c'
@@ -19,7 +19,10 @@ export default function Home({ params }: { params: { slug: string } }) {
     const { connected, address, signAndExecuteTransactionBlock } = useWallet()
     const [refreshData, setRefreshData] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [tickInfo, setTickInfo] = useState()
+    const [mintFee, setMintFee] = useState(0)
+    const [tickInfo, setTickInfo] = useState([])
+    const [userTickInfo, setUserTickInfo] = useState([])
+    const [loadingUserTick, setLoadingUserTick] = useState(false)
     const name = params.name
 
     useEffect(() => {
@@ -36,6 +39,7 @@ export default function Home({ params }: { params: { slug: string } }) {
                 tickData[0]['value'] = `${parseInt(data.total_transactions ?? 0)*parseInt(data.mint_fee)/1000000000}`
                 tickData[1]['value'] = `${data.current_epoch}/${data.epoch_count}`
                 tickData[2]['value'] = `${data.total_transactions ?? 0}`
+                setMintFee(parseInt(data.mint_fee)/1000000000)
                 setTickInfo(tickData)
             }
             setLoading(false)
@@ -46,7 +50,30 @@ export default function Home({ params }: { params: { slug: string } }) {
     }, [])
 
     useEffect(() => {
-        if (refreshData) {
+        if (address) {
+            const userStats = [
+                { id: 1, name: 'Your Transactions', value: '0' },
+                { id: 2, name: 'Minted Tokens', value: '0' },
+            ]
+            setLoadingUserTick(true)
+            getOwnedObjects(address).then((res) => {
+                const data = res.data
+                if (data && data.length) {
+                    const ownedTicks = data.filter((item: any) => item.data && item.data.content && item.data.content.type == `${PACKAGE_ID}::inscription::Inscription` && item.data.content.fields.tick.toLowerCase() == name.toLowerCase())
+                    userStats[0]['value'] = `${ownedTicks.length}`
+                    userStats[1]['value'] = `${ownedTicks.length*mintFee}`
+                    setUserTickInfo(userStats)
+                }
+                setLoadingUserTick(false)
+            }).catch ((err) => {
+                console.log(err)
+                setLoadingUserTick(false)
+            })
+        }
+    }, [address])
+
+    useEffect(() => {
+        if (refreshData && address) {
             const tickData = [
                 { id: 1, name: 'Total SUI Locked', value: '' },
                 { id: 2, name: 'Current Epoch', value: '' },
@@ -69,8 +96,21 @@ export default function Home({ params }: { params: { slug: string } }) {
                 setLoading(false)
                 setRefreshData(false)
             })
+
+            setLoadingUserTick(true)
+            getOwnedObjects(address).then((res) => {
+                const data = res.data
+                if (data && data.length) {
+                    const ownedTicks = data.filter((item: any) => item.data && item.data.content && item.data.content.type == `${PACKAGE_ID}::inscription::Inscription` && item.data.content.fields.tick.toLowerCase() == name.toLowerCase())
+                    setUserTickInfo(ownedTicks)
+                }
+                setLoadingUserTick(false)
+            }).catch ((err) => {
+                console.log(err)
+                setLoadingUserTick(false)
+            })
         }
-    }, [refreshData])
+    }, [address, refreshData])
 
     const mint = async (tick: string) => {
         if (!connected) return
@@ -112,13 +152,14 @@ export default function Home({ params }: { params: { slug: string } }) {
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
           <TickStats data={tickInfo} />
+          <UserStats data={userTickInfo}/>
           <div className="flex flex-row justify-center">
             {loading ? <Button disabled>
       <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
       Minting
     </Button> : <Button size={'lg'} onClick={() => mint(name)}>Mint</Button>}
           </div>
-          <UserStats />
+          
           <EpochTable />
     </section>
   )
