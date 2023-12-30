@@ -61,7 +61,7 @@ export default function TickTable(props: TickTableProps) {
                       <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8">
                         {tick.tick}
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{moment(parseInt(tick.start_time_ms)).utc().format('YYYY-MM-DD HH:mm:ss')}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{moment(parseInt(tick.start_time_ms)).utc().local().format('YYYY-MM-DD HH:mm:ss')}</td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{`${thousandify(tick.total_supply)}(${thousandify(tick.remain)})`}</td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{`${tick.current_epoch}/${tick.epoch_count}`}</td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{tick.mint_fee/1000000000}</td>
