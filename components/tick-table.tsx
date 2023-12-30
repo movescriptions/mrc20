@@ -12,7 +12,6 @@ const ticks = [
 
 interface TickTableProps {
   deploy_tick: () => void
-  mint: (tick: string) => void
 }
   
 export default function TickTable(props: TickTableProps) {
@@ -24,7 +23,6 @@ export default function TickTable(props: TickTableProps) {
           </div>
           <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
             <Button
-              disabled
               type="button"
               className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               onClick={props.deploy_tick}
