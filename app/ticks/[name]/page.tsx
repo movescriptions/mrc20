@@ -9,13 +9,14 @@ import { useState } from "react"
 import { useWallet } from "@suiet/wallet-kit"
 import { TransactionBlock } from '@mysten/sui.js/transactions'
 
-const PACKAGE_ID = '0x6c995291a90cb0c2142f95706c54b3ecf7fd46ef4189a2318b442afbd5ad7f2f'
-const DEPLOY_RECORD = '0xc7e804a1fd593321514255a944bd51c0edcad85fabefafc629ff68daec002993'
-const TICK_RECORD = '0xfb7de210354b1b559536edf2de4020966025e1bd7b21dc84be5cc24264ea7c76'
+const PACKAGE_ID = '0xe586ecee5a848f304db9504ffe2ba529623047467edeb0d3fe1fe486a8b8b04c'
+const DEPLOY_RECORD = '0x810790bf87223f5733cd6937d42ed9186c79d3f7f0bde98d18565054d526644f'
+const TICK_RECORD = '0xe0420fd06b5e14c1d79dab3542aa869deb9a2dd0469ef155e1a85453da1a034c'
 
-export default function Home() {
+export default function Home({ params }: { params: { slug: string } }) {
     const { connected, address, signAndExecuteTransactionBlock } = useWallet()
     const [refreshData, setRefreshData] = useState(false)
+    const name = params.name
   
     const mint = async (tick: string) => {
         if (!connected) return
@@ -23,7 +24,7 @@ export default function Home() {
         // define a programmable transaction
         const tx = new TransactionBlock()
         const [coin] = tx.splitCoins(tx.gas, [
-          tx.pure(1000),
+          tx.pure(2000),
         ])
     
         tx.moveCall({
@@ -53,7 +54,7 @@ export default function Home() {
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
           <TickStats />
           <div className="flex flex-row justify-center">
-            <Button size={'lg'} onClick={() => mint('MOVES')}>Mint</Button>
+            <Button size={'lg'} onClick={() => mint(name)}>Mint</Button>
           </div>
           <UserStats />
           <EpochTable />

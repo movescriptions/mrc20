@@ -7,7 +7,14 @@ const ticks = [
       progress: 80,
       holders: 10000,
       transactions: 100000,
-    }
+  },
+  {
+    name: 'tests',
+    deploy_time: '2021-10-10',
+    progress: 80,
+    holders: 10000,
+    transactions: 100000,
+  }
 ]
 
 interface TickTableProps {

@@ -11,8 +11,8 @@ import { TransactionBlock } from '@mysten/sui.js/transactions'
 import TickList from "@/components/tick-table"
 import { Module } from "module"
 
-const PACKAGE_ID = '0x6c995291a90cb0c2142f95706c54b3ecf7fd46ef4189a2318b442afbd5ad7f2f'
-const DEPLOY_RECORD = '0xc7e804a1fd593321514255a944bd51c0edcad85fabefafc629ff68daec002993'
+const PACKAGE_ID = '0xe586ecee5a848f304db9504ffe2ba529623047467edeb0d3fe1fe486a8b8b04c'
+const DEPLOY_RECORD = '0x810790bf87223f5733cd6937d42ed9186c79d3f7f0bde98d18565054d526644f'
 
 export default function IndexPage() {
   const { connected, address, signAndExecuteTransactionBlock } = useWallet()
@@ -28,9 +28,9 @@ export default function IndexPage() {
       target: `${PACKAGE_ID}::inscription::deploy`,
       arguments: [
         tx.object(DEPLOY_RECORD),
-        tx.pure("moves"),
+        tx.pure("tests"),
         tx.pure(100_0000_0000),
-        tx.pure(1704038400*1000),
+        tx.pure(Date.now()+120000),
         tx.pure(60*24*15),
         tx.pure(1000),
         tx.pure(""),
