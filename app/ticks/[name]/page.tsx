@@ -86,6 +86,32 @@ export default function Home({ params }: { params: { name: string } }) {
     }, [address])
 
     useEffect(() => {
+        if (address && refreshData) {
+            const userStats = [
+                { id: 1, name: 'Your Transactions', value: '0' },
+                { id: 2, name: 'Minted Tokens', value: '0' },
+            ]
+            setLoadingUserTick(true)
+            getOwnedObjects(address).then((res) => {
+                const data = res.data
+                if (data && data.length) {
+                    const ownedTicks = data.filter((item: any) => item.data && item.data.content && item.data.content.type == `${PACKAGE_ID}::inscription::Inscription` && item.data.content.fields.tick.toLowerCase() == name.toLowerCase())
+                    userStats[0]['value'] = `${ownedTicks.length}`
+                    userStats[1]['value'] = `${ownedTicks.length*mintFee}`
+                    // @ts-ignore
+                    setUserTickInfo(userStats)
+                }
+                setRefreshData(false)
+                setLoadingUserTick(false)
+            }).catch ((err) => {
+                console.log(err)
+                setLoadingUserTick(false)
+                setRefreshData(false)
+            })
+        }
+    }, [address, refreshData])
+
+    useEffect(() => {
         if (refreshData && address) {
             const tickData = [
                 { id: 1, name: 'Total SUI Locked', value: '' },
@@ -110,22 +136,8 @@ export default function Home({ params }: { params: { name: string } }) {
                 setLoading(false)
                 setRefreshData(false)
             })
-
-            setLoadingUserTick(true)
-            getOwnedObjects(address).then((res) => {
-                const data = res.data
-                if (data && data.length) {
-                    const ownedTicks = data.filter((item: any) => item.data && item.data.content && item.data.content.type == `${PACKAGE_ID}::inscription::Inscription` && item.data.content.fields.tick.toLowerCase() == name.toLowerCase())
-                    // @ts-ignore
-                    setUserTickInfo(ownedTicks)
-                }
-                setLoadingUserTick(false)
-            }).catch ((err) => {
-                console.log(err)
-                setLoadingUserTick(false)
-            })
         }
-    }, [address, tickRecord, refreshData])
+    }, [tickRecord, refreshData])
 
     const mint = async (tick: string) => {
         if (!connected) return
