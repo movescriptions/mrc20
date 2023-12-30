@@ -25,5 +25,5 @@ export const siteConfig = {
   },
 }
 
-export const PACKAGE_ID = '0x1bf662035b6cf005e6de0edb9e0cde8d529f14ec89fe20ad8cd93a2ed9733f49'
-export const DEPLOY_RECORD = '0x7aeab0e1e89eab90a082196dcd3f198a18713989e1b416784dfd4efb2366d135'
+export const PACKAGE_ID = '0xf914ca4b8258b23c8e5424504fc2e30b4d8eb03da5a2041d6520a41301392b73'
+export const DEPLOY_RECORD = '0x9fd16d3350163992a395c55d50410647951e23c032557bf38ed32e4c60b34f9c'
