@@ -5,19 +5,49 @@ import Link from "next/link"
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useWallet } from "@suiet/wallet-kit"
 import { TransactionBlock } from '@mysten/sui.js/transactions'
 import TickList from "@/components/tick-table"
 import { Module } from "module"
+import { getSuiDynamicFields, getSuiObject } from "@/lib/apis"
 
 const PACKAGE_ID = '0xe586ecee5a848f304db9504ffe2ba529623047467edeb0d3fe1fe486a8b8b04c'
 const DEPLOY_RECORD = '0x810790bf87223f5733cd6937d42ed9186c79d3f7f0bde98d18565054d526644f'
 
 export default function IndexPage() {
   const { connected, address, signAndExecuteTransactionBlock } = useWallet()
+  const [loading, setLoading] = useState(false)
+  const [ticks, setTicks] = useState([])
   const [refreshData, setRefreshData] = useState(false)
 
+  useEffect(() => {
+    setLoading(true)
+    getSuiDynamicFields(DEPLOY_RECORD, 'record').then((res) => {
+        console.log(res)  
+        setTicks(res)
+        setLoading(false)
+    }).catch((err) => {
+        console.log(err)
+        setLoading(false)
+    })
+  }, [])
+
+  useEffect(() => {
+    if (refreshData) {
+      setLoading(true)
+      getSuiDynamicFields(DEPLOY_RECORD, 'record').then((res) => {
+        setTicks(res)
+        setLoading(false)
+        setRefreshData(false)
+      }).catch((err) => {
+        console.log(err)
+        setLoading(false)
+        setRefreshData(false)
+      })
+    }
+  }, [refreshData])
+  
   const deploy_move = async () => {
     if (!connected) return
 
@@ -45,15 +75,17 @@ export default function IndexPage() {
         // @ts-ignore
         transactionBlock: tx,
       })
+      setRefreshData(true)
       console.log('deploy successfully!', resData)
     } catch (e) {
+      setRefreshData(true)
       console.error('deploy failed', e)
     }
   }
   
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
-      <TickList deploy_tick={deploy_move} />
+      <TickList deploy_tick={deploy_move} data={ticks} />
     </section>
   )
 }

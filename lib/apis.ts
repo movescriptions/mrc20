@@ -22,23 +22,12 @@ export const getSuiDynamicFields = async (
   const collection_keys = await client.getDynamicFields({
     parentId: dynamic_field_key,
   })
-
   const result = []
   for (const key of collection_keys.data) {
-    const row_key = key.name.value ?? ''
-    if (row_key) {
-      const res = await client.getDynamicFieldObject({
-        parentId: dynamic_field_key,
-        name: {
-          type: '0x2::object::ID',
-          value: row_key,
-        },
-      })
-      // @ts-ignore
-      const obj = await getSuiObject(res.data?.content?.fields.name)
-      // @ts-ignore
-      result.push(transformProposal(obj.data?.content?.fields))
-    }
+    const obj = await getSuiObject(key.objectId)
+    const real_obj = await getSuiObject(obj.data?.content?.fields.value)
+    // @ts-ignore
+    result.push(real_obj.data?.content?.fields)
   }
   return result
 }
