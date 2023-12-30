@@ -11,6 +11,7 @@ import { TransactionBlock } from '@mysten/sui.js/transactions'
 import { getOwnedObjects, getSuiDynamicFields, getSuiObject } from "@/lib/apis";
 import { ReloadIcon } from "@radix-ui/react-icons"
 import { PACKAGE_ID, DEPLOY_RECORD } from "@/config/site";
+import NP from 'number-precision'
 
 export const runtime = 'edge'
 
@@ -73,7 +74,7 @@ export default function Home({ params }: { params: { name: string } }) {
                 if (data && data.length) {
                     const ownedTicks = data.filter((item: any) => item.data && item.data.content && item.data.content.type == `${PACKAGE_ID}::inscription::Inscription` && item.data.content.fields.tick.toLowerCase() == name.toLowerCase())
                     userStats[0]['value'] = `${ownedTicks.length}`
-                    userStats[1]['value'] = `${ownedTicks.length*mintFee}`
+                    userStats[1]['value'] = `${NP.strip(ownedTicks.length*mintFee)}`
                     // @ts-ignore
                     setUserTickInfo(userStats)
                 }
@@ -97,7 +98,7 @@ export default function Home({ params }: { params: { name: string } }) {
                 if (data && data.length) {
                     const ownedTicks = data.filter((item: any) => item.data && item.data.content && item.data.content.type == `${PACKAGE_ID}::inscription::Inscription` && item.data.content.fields.tick.toLowerCase() == name.toLowerCase())
                     userStats[0]['value'] = `${ownedTicks.length}`
-                    userStats[1]['value'] = `${ownedTicks.length*mintFee}`
+                    userStats[1]['value'] = `${NP.strip(ownedTicks.length*mintFee)}`
                     // @ts-ignore
                     setUserTickInfo(userStats)
                 }
