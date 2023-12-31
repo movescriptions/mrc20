@@ -45,7 +45,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <Providers>
               <div className="relative flex min-h-screen flex-col justify-center">
-                <div className="m-10 w-auto rounded-xl bg-white shadow-xl ring-1 ring-gray-50">                
+                <div className="MContainer">                
                   <SiteHeader/>
                 </div>
                 <div className="flex-1">{children}</div>

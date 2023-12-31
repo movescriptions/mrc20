@@ -83,7 +83,7 @@ export default function IndexPage() {
   }
   
   return (
-    <section className="m-10 w-auto rounded-xl bg-white p-5 shadow-xl ring-1 ring-gray-50">
+    <section className="MContainer">
       <TickList deploy_tick={deploy_move} data={ticks} />
     </section>
   )

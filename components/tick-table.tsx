@@ -10,7 +10,7 @@ interface TickTableProps {
   
 export default function TickTable(props: TickTableProps) {
     return (
-      <div className="p-5 ">
+      <div className="p-10">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h1 className="text-base font-semibold leading-6 text-gray-900">MRC20 List</h1>   

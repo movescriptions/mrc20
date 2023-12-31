@@ -78,4 +78,8 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+
+  .MContainer {
+    @apply m-10 w-auto rounded-xl bg-white shadow-xl ring-1 ring-gray-50
+  }
 }
