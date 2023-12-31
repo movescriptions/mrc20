@@ -212,6 +212,8 @@ export default function Home({ params }: { params: { name: string } }) {
               All mint fees stored in your inscriptions.
               <br/>
               You can burn your move inscriptions to get back your mint fees.
+              <br />
+              Your inscriptions will be sent to your address after the end of the epoch.
           </div>
     </section>
   )
