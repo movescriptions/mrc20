@@ -1,17 +1,15 @@
-'use client'
+"use client"
 
 import Link from "next/link"
+import { ConnectButton, ErrorCode } from "@suiet/wallet-kit"
 
 import { siteConfig } from "@/config/site"
 import { buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
-import {
-  ConnectButton,
-  ErrorCode,
-} from '@suiet/wallet-kit'
-import './ui/suiet-wallet-kit-custom.css'
+
+import "./ui/suiet-wallet-kit-custom.css"
 
 export function SiteHeader() {
   return (
@@ -22,6 +20,7 @@ export function SiteHeader() {
           <nav className="flex items-center space-x-1">
             <Link
               href={siteConfig.links.github}
+              className="max-md:hidden"
               target="_blank"
               rel="noreferrer"
             >
@@ -37,6 +36,7 @@ export function SiteHeader() {
             </Link>
             <Link
               href={siteConfig.links.twitter}
+              className="max-md:hidden"
               target="_blank"
               rel="noreferrer"
             >
@@ -50,22 +50,25 @@ export function SiteHeader() {
                 <span className="sr-only">Twitter</span>
               </div>
             </Link>
-            <div className="flex items-center gap-x-5 md:gap-x-8">
-            <ConnectButton
-              label="Connect Wallet"
-              onConnectError={(error) => {
-                if (
-                  error.code === ErrorCode.WALLET__CONNECT_ERROR__USER_REJECTED
-                ) {
-                  console.warn(
-                    'user rejected the connection to ' + error.details?.wallet,
-                  )
-                } else {
-                  console.warn('unknown connect error: ', error)
-                }
-              }}
-            >Connect Wallet</ConnectButton>
-          </div>
+            <div className="flex justify-center">
+              <ConnectButton
+                label="Connect Wallet"
+                onConnectError={(error) => {
+                  if (
+                    error.code ===
+                    ErrorCode.WALLET__CONNECT_ERROR__USER_REJECTED
+                  ) {
+                    console.warn(
+                      "user rejected the connection to " + error.details?.wallet
+                    )
+                  } else {
+                    console.warn("unknown connect error: ", error)
+                  }
+                }}
+              >
+                Connect Wallet
+              </ConnectButton>
+            </div>
           </nav>
         </div>
       </div>

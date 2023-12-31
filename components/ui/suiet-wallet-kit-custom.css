@@ -1,8 +1,11 @@
 .wkit-button {
-    --wkit-accent-hs: 210,50%;
-    --wkit-on-accent-rgb: 255, 255, 255;
-    --wkit-button-width: 100%;
-    --wkit-border-radius: 0.5rem;
-    --wkit-bg-rgb:0,0,0;
-    --wkit-font-size-medium: 1rem;
+  --wkit-accent-hs: 210, 50%;
+  --wkit-on-accent-rgb: 255, 255, 255;
+  --wkit-button-width: 100%;
+  --wkit-border-radius: 0.5rem;
+  --wkit-bg-rgb: 0, 0, 0;
+}
+
+.wkit-connected-container {
+  --wkit-button-width: auto;
 }
