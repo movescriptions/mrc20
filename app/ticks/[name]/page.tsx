@@ -208,8 +208,10 @@ export default function Home({ params }: { params: { name: string } }) {
       Wait for a moment
     </Button> : <Button size={'lg'} onClick={() => mint(name, mintFee)}>Mint</Button>}
           </div>
-          <div className="flex flex-row justify-center">
+          <div className="flex flex-row justify-center text-center">
               All mint fees stored in your inscriptions.
+              <br/>
+              You can burn your move inscriptions to get back your mint fees.
           </div>
     </section>
   )
