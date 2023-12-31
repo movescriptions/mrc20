@@ -31,7 +31,6 @@ export default function Home({ params }: { params: { name: string } }) {
     useEffect(() => {
         setLoading(true)
         getSuiDynamicFields(DEPLOY_RECORD, 'record').then((res) => {
-            console.log(res)  
             const tick = res.find((item: any) => item.tick.toLowerCase() == name.toLowerCase())
             if (tick) {
                 setTickRecord(tick.id.id)
@@ -78,8 +77,6 @@ export default function Home({ params }: { params: { name: string } }) {
                     const ownedTicks = data.filter((item: any) => item.data && item.data.content && item.data.content.type == `${PACKAGE_ID}::movescription::Movescription` && item.data.content.fields.tick.toLowerCase() == name.toLowerCase())
                     let acc = 0
                     let amount = 0
-                    console.dir(data)
-                    console.dir(ownedTicks)
                     if (ownedTicks.length) { 
                         for (let i = 0; i < ownedTicks.length; i++) {
                             acc += parseInt(ownedTicks[i].data.content.fields.acc)
