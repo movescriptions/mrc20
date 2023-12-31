@@ -208,6 +208,9 @@ export default function Home({ params }: { params: { name: string } }) {
       Wait for a moment
     </Button> : <Button size={'lg'} onClick={() => mint(name, mintFee)}>Mint</Button>}
           </div>
+          <div className="flex flex-row justify-center">
+              All mint fees stored in your inscriptions.
+          </div>
     </section>
   )
 }
