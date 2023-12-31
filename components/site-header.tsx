@@ -11,11 +11,12 @@ import {
   ConnectButton,
   ErrorCode,
 } from '@suiet/wallet-kit'
+import './ui/suiet-wallet-kit-custom.css'
 
 export function SiteHeader() {
   return (
-    <header className="bg-background sticky top-0 z-40 w-full border-b">
-      <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
+    <header>
+      <div className="mx-8 flex h-16 items-center justify-start space-x-4">
         <MainNav items={siteConfig.mainNav} />
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-1">
@@ -51,6 +52,7 @@ export function SiteHeader() {
             </Link>
             <div className="flex items-center gap-x-5 md:gap-x-8">
             <ConnectButton
+              label="Connect Wallet"
               onConnectError={(error) => {
                 if (
                   error.code === ErrorCode.WALLET__CONNECT_ERROR__USER_REJECTED
