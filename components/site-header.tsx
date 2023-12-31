@@ -63,7 +63,7 @@ export function SiteHeader() {
                   console.warn('unknown connect error: ', error)
                 }
               }}
-            />
+            >Connect Wallet</ConnectButton>
           </div>
           </nav>
         </div>
