@@ -19,7 +19,7 @@ export const siteConfig = {
     },
   ],
   links: {
-    twitter: "https://twitter.com/MoveScription",
+    twitter: "https://twitter.com/MoveScriptions",
     github: "https://github.com/movescriptions/movescriptions",
     docs: "",
   },
