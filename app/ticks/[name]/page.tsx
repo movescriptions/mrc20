@@ -34,6 +34,7 @@ export default function Home({ params }: { params: { name: string } }) {
             const tick = res.find((item: any) => item.tick.toLowerCase() == name.toLowerCase())
             if (tick) {
                 setTickRecord(tick.id.id)
+                console.log(tick.id.id)
                 const tickData = [
                     { id: 1, name: 'Total SUI Locked', value: '' },
                     { id: 2, name: 'Current Epoch', value: '' },
@@ -45,7 +46,7 @@ export default function Home({ params }: { params: { name: string } }) {
                     const data = res.data && res.data && res.data?.content ? res.data?.content.fields : null
                     if (data) {
                         tickData[0]['value'] = `${parseInt(data.total_transactions ?? 0)*parseInt(data.mint_fee)/1000000000}`
-                        tickData[1]['value'] = `${parseInt(data.current_epoch)+1}/${parseInt(data.epoch_count)+1}`
+                        tickData[1]['value'] = `${parseInt(data.current_epoch)+1}/${parseInt(data.epoch_count)}`
                         tickData[2]['value'] = `${data.total_transactions ?? 0}`
                         setMintFee(parseInt(data.mint_fee)/1000000000)
                         // @ts-ignore
@@ -146,7 +147,7 @@ export default function Home({ params }: { params: { name: string } }) {
                 const data = res.data && res.data && res.data?.content ? res.data?.content.fields : null
                 if (data) {
                     tickData[0]['value'] = `${parseInt(data.total_transactions ?? 0)*parseInt(data.mint_fee)/1000000000}`
-                    tickData[1]['value'] = `${parseInt(data.current_epoch)+1}/${parseInt(data.epoch_count)+1}`
+                    tickData[1]['value'] = `${parseInt(data.current_epoch)+1}/${parseInt(data.epoch_count)}`
                     tickData[2]['value'] = `${data.total_transactions ?? 0}`
                     // @ts-ignore
                     setTickInfo(tickData)

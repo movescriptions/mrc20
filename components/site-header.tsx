@@ -50,7 +50,6 @@ export function SiteHeader() {
                 <span className="sr-only">Twitter</span>
               </div>
             </Link>
-            <ThemeToggle />
             <div className="flex items-center gap-x-5 md:gap-x-8">
             <ConnectButton
               label="Connect Wallet"
