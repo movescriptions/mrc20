@@ -45,7 +45,7 @@ export default function Home({ params }: { params: { name: string } }) {
                     const data = res.data && res.data && res.data?.content ? res.data?.content.fields : null
                     if (data) {
                         tickData[0]['value'] = `${parseInt(data.total_transactions ?? 0)*parseInt(data.mint_fee)/1000000000}`
-                        tickData[1]['value'] = `${parseInt(data.current_epoch)+1}/${data.epoch_count}`
+                        tickData[1]['value'] = `${parseInt(data.current_epoch)+1}/${parseInt(data.epoch_count)+1}`
                         tickData[2]['value'] = `${data.total_transactions ?? 0}`
                         setMintFee(parseInt(data.mint_fee)/1000000000)
                         // @ts-ignore
@@ -146,7 +146,7 @@ export default function Home({ params }: { params: { name: string } }) {
                 const data = res.data && res.data && res.data?.content ? res.data?.content.fields : null
                 if (data) {
                     tickData[0]['value'] = `${parseInt(data.total_transactions ?? 0)*parseInt(data.mint_fee)/1000000000}`
-                    tickData[1]['value'] = `${parseInt(data.current_epoch)+1}/${data.epoch_count}`
+                    tickData[1]['value'] = `${parseInt(data.current_epoch)+1}/${parseInt(data.epoch_count)+1}`
                     tickData[2]['value'] = `${data.total_transactions ?? 0}`
                     // @ts-ignore
                     setTickInfo(tickData)
@@ -207,6 +207,13 @@ export default function Home({ params }: { params: { name: string } }) {
       <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
       Wait for a moment
     </Button> : <Button size={'lg'} onClick={() => mint(name, mintFee)}>Mint</Button>}
+          </div>
+          <div className="flex flex-row justify-center text-center">
+              All mint fees stored in your inscriptions.
+              <br/>
+              You can burn your move inscriptions to get back your mint fees.
+              <br />
+              Your inscriptions will be sent to your address after the end of the epoch.
           </div>
     </section>
   )

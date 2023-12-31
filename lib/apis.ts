@@ -1,6 +1,7 @@
+import { NETWORK } from '@/config/site'
 import { SuiClient, getFullnodeUrl } from '@mysten/sui.js/client'
 
-const client = new SuiClient({ url: getFullnodeUrl('devnet') })
+const client = new SuiClient({ url: getFullnodeUrl(NETWORK) })
 
 export const getSuiDynamicFields = async (
   id: string,
