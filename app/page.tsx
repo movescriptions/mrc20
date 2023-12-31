@@ -55,7 +55,7 @@ export default function IndexPage() {
     const tx = new TransactionBlock()
 
     tx.moveCall({
-      target: `${PACKAGE_ID}::inscription::deploy`,
+      target: `${PACKAGE_ID}::movescription::deploy`,
       arguments: [
         tx.object(DEPLOY_RECORD),
         tx.pure("tests"),
@@ -63,7 +63,6 @@ export default function IndexPage() {
         tx.pure(Date.now()+120000),
         tx.pure(60*24*15),
         tx.pure(1000),
-        tx.pure(""),
         tx.pure("0x6")
       ],
       typeArguments: [],

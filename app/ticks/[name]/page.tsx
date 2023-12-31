@@ -12,6 +12,8 @@ import { getOwnedObjects, getSuiDynamicFields, getSuiObject } from "@/lib/apis";
 import { ReloadIcon } from "@radix-ui/react-icons"
 import { PACKAGE_ID, DEPLOY_RECORD } from "@/config/site";
 import NP from 'number-precision'
+// @ts-ignore
+import thousandify from 'thousandify'
 
 export const runtime = 'edge'
 
@@ -66,15 +68,27 @@ export default function Home({ params }: { params: { name: string } }) {
         if (address && mintFee) {
             const userStats = [
                 { id: 1, name: 'Your Inscriptions', value: '0' },
-                { id: 2, name: 'Locked SUI', value: '0' },
+                { id: 2, name: 'Minted Tokens', value: '0' },
+                { id: 3, name: 'Locked SUI', value: '0' },
             ]
             setLoadingUserTick(true)
             getOwnedObjects(address).then((res) => {
                 const data = res.data
                 if (data && data.length) {
-                    const ownedTicks = data.filter((item: any) => item.data && item.data.content && item.data.content.type == `${PACKAGE_ID}::inscription::Inscription` && item.data.content.fields.tick.toLowerCase() == name.toLowerCase())
+                    const ownedTicks = data.filter((item: any) => item.data && item.data.content && item.data.content.type == `${PACKAGE_ID}::movescription::Movescription` && item.data.content.fields.tick.toLowerCase() == name.toLowerCase())
+                    let acc = 0
+                    let amount = 0
+                    console.dir(data)
+                    console.dir(ownedTicks)
+                    if (ownedTicks.length) { 
+                        for (let i = 0; i < ownedTicks.length; i++) {
+                            acc += parseInt(ownedTicks[i].data.content.fields.acc)
+                            amount += parseInt(ownedTicks[i].data.content.fields.amount)
+                        }
+                    }
                     userStats[0]['value'] = `${ownedTicks.length}`
-                    userStats[1]['value'] = `${NP.strip(ownedTicks.length*mintFee)}`
+                    userStats[2]['value'] = `${NP.strip(acc / 1000000000)}`
+                    userStats[1]['value'] = `${thousandify(amount)}`
                     // @ts-ignore
                     setUserTickInfo(userStats)
                 }
@@ -90,15 +104,25 @@ export default function Home({ params }: { params: { name: string } }) {
         if (address && refreshData) {
             const userStats = [
                 { id: 1, name: 'Your Inscriptions', value: '0' },
-                { id: 2, name: 'Locked SUI', value: '0' },
+                { id: 2, name: 'Minted Tokens', value: '0' },
+                { id: 3, name: 'Locked SUI', value: '0' },
             ]
             setLoadingUserTick(true)
             getOwnedObjects(address).then((res) => {
                 const data = res.data
                 if (data && data.length) {
-                    const ownedTicks = data.filter((item: any) => item.data && item.data.content && item.data.content.type == `${PACKAGE_ID}::inscription::Inscription` && item.data.content.fields.tick.toLowerCase() == name.toLowerCase())
+                    const ownedTicks = data.filter((item: any) => item.data && item.data.content && item.data.content.type == `${PACKAGE_ID}::movescription::Movescription` && item.data.content.fields.tick.toLowerCase() == name.toLowerCase())
+                    let acc = 0
+                    let amount = 0
+                    if (ownedTicks.length) { 
+                        for (let i = 0; i < ownedTicks.length; i++) {
+                            acc += parseInt(ownedTicks[i].data.content.fields.acc)
+                            amount += parseInt(ownedTicks[i].data.content.fields.amount)
+                        }
+                    }
                     userStats[0]['value'] = `${ownedTicks.length}`
-                    userStats[1]['value'] = `${NP.strip(ownedTicks.length*mintFee)}`
+                    userStats[2]['value'] = `${NP.strip(acc / 1000000000)}`
+                    userStats[1]['value'] = `${thousandify(amount)}`
                     // @ts-ignore
                     setUserTickInfo(userStats)
                 }
@@ -140,18 +164,18 @@ export default function Home({ params }: { params: { name: string } }) {
         }
     }, [tickRecord, refreshData])
 
-    const mint = async (tick: string) => {
+    const mint = async (tick: string, mintFee: number) => {
         if (!connected) return
 
         setLoading(true)
         // define a programmable transaction
         const tx = new TransactionBlock()
         const [coin] = tx.splitCoins(tx.gas, [
-          tx.pure(2000),
+          tx.pure(mintFee*1000000000),
         ])
     
         tx.moveCall({
-          target: `${PACKAGE_ID}::inscription::mint`,
+          target: `${PACKAGE_ID}::movescription::mint`,
           arguments: [
             tx.object(tickRecord),
             tx.pure(tick),
@@ -185,7 +209,7 @@ export default function Home({ params }: { params: { name: string } }) {
             {loading ? <Button disabled>
       <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
       Wait for a moment
-    </Button> : <Button size={'lg'} onClick={() => mint(name)}>Mint</Button>}
+    </Button> : <Button size={'lg'} onClick={() => mint(name, mintFee)}>Mint</Button>}
           </div>
     </section>
   )
