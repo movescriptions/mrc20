@@ -83,7 +83,7 @@ export default function IndexPage() {
   }
   
   return (
-    <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
+    <section className="m-10 w-auto rounded-xl bg-white p-5 shadow-xl ring-1 ring-gray-50">
       <TickList deploy_tick={deploy_move} data={ticks} />
     </section>
   )
