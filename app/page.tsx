@@ -63,7 +63,7 @@ export default function IndexPage() {
         tx.pure(Date.now()+120000),
         tx.pure(60*24*15),
         tx.pure(1000),
-        tx.pure("0x6")
+        tx.object("0x6")
       ],
       typeArguments: [],
     })

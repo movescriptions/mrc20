@@ -219,7 +219,7 @@ export default function Home({ params }: { params: { name: string } }) {
 
     tx.moveCall({
       target: `${PACKAGE_ID}::movescription::mint`,
-      arguments: [tx.object(tickRecord), tx.pure(tick), coin, tx.pure("0x6")],
+      arguments: [tx.object(tickRecord), tx.pure(tick), coin, tx.object("0x6")],
       typeArguments: [],
     })
 
