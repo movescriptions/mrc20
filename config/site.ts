@@ -14,8 +14,8 @@ export const siteConfig = {
       href: "/",
     },
     {
-      title: "My Assets(coming soon)",
-      href: "/",
+      title: "My Assets",
+      href: "/assets",
     },
   ],
   links: {
