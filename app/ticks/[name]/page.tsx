@@ -90,7 +90,7 @@ export default function Home({ params }: { params: { name: string } }) {
       setLoadingUserTick(true)
       getOwnedObjects(address)
         .then((res) => {
-          const data = res.data
+          const data = res
           if (data && data.length) {
             const ownedTicks = data.filter(
               (item: any) =>
@@ -134,7 +134,7 @@ export default function Home({ params }: { params: { name: string } }) {
       setLoadingUserTick(true)
       getOwnedObjects(address)
         .then((res) => {
-          const data = res.data
+          const data = res
           if (data && data.length) {
             const ownedTicks = data.filter(
               (item: any) =>

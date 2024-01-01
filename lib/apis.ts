@@ -43,13 +43,27 @@ export const getSuiObject = (id: string) => {
   })
 }
 
-export const getOwnedObjects = (owner: string) => {
-    return client.getOwnedObjects({
+export const getOwnedObjects = async (owner: string) => {
+  // @ts-ignore
+  let result = []
+  let cursor = null
+  while (true) {
+    const data = await client.getOwnedObjects({
       owner,
+      cursor: cursor,
       options: {
         showContent: true,
       },
     })
+    cursor = data.nextCursor ?? null
+    // @ts-ignore
+    result = result.concat(data.data)
+    if (!data.hasNextPage) {
+      break
+    }
+  }
+  console.dir(result)
+  return result
 }
 
 
