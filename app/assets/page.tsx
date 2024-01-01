@@ -151,6 +151,7 @@ export default function Home({params}: { params: { name: string } }) {
   return (
     <section className="MContainer p-10">
       <MyMRCList
+        loading={loadingUserTick || loading}
         burn={burn}
         data={userTickInfo}
         selected={selectedInscriptions}
