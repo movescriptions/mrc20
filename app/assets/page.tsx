@@ -7,7 +7,7 @@ import thousandify from "thousandify"
 import {TransactionBlock} from "@mysten/sui.js/transactions"
 
 import {DEPLOY_RECORD, PACKAGE_ID} from "@/config/site"
-import {getOwnedObjects, getSuiDynamicFields} from "@/lib/apis"
+import {getOwnedObjectsByCursor, getSuiDynamicFields} from "@/lib/apis"
 import MyMRCList from "@/components/my-mrc-list"
 
 export const runtime = "edge"
@@ -20,6 +20,9 @@ export default function Home({params}: { params: { name: string } }) {
   const [selectedInscriptions, setSelectedInscriptions] = useState([])
   const [loading, setLoading] = useState(false)
   const [ticks, setTicks] = useState([])
+  const [oldCursor, setOldCursor] = useState<string | null | undefined>(null)
+  const [nextObjectId, setNextObjectId] = useState<string | null | undefined>("")
+  const [hasNextPage, setHasNextPage] = useState<boolean>(false)
 
   useEffect(() => {
     setLoading(true)
@@ -53,9 +56,12 @@ export default function Home({params}: { params: { name: string } }) {
   useEffect(() => {
     if (address) {
       setLoadingUserTick(true)
-      getOwnedObjects(address)
+      getOwnedObjectsByCursor(address, null)
         .then((res) => {
-          const data = res
+          const data = res.data
+          setNextObjectId(res.nextCursor)
+          setOldCursor(null)
+          setHasNextPage(res.hasNextPage)
           if (data && data.length) {
             const ownedTicks = data.filter(
               (item: any) =>
@@ -85,9 +91,9 @@ export default function Home({params}: { params: { name: string } }) {
   useEffect(() => {
     if (address && refreshData) {
       setLoadingUserTick(true)
-      getOwnedObjects(address)
+      getOwnedObjectsByCursor(address, oldCursor)
         .then((res) => {
-          const data = res
+          const data = res.data
           if (data && data.length) {
             const ownedTicks = data.filter(
               (item: any) =>
@@ -102,7 +108,6 @@ export default function Home({params}: { params: { name: string } }) {
                 acc += parseInt(ownedTicks[i].data.content.fields.acc)
               }
             }
-            console.dir(ownedTicks)
             setUserTickInfo(ownedTicks)
           }
           setRefreshData(false)
@@ -114,14 +119,12 @@ export default function Home({params}: { params: { name: string } }) {
           setLoadingUserTick(false)
         })
     }
-  }, [address, refreshData])
+  }, [address, oldCursor, refreshData])
 
   const burn = async (tick: string, object_id: string) => {
     if (!connected) return
     const filteredTick = ticks.find((item: any) => item.tick.toLowerCase() == tick.toLowerCase())
     if (!filteredTick) return
-
-    setLoadingUserTick(true)
     // define a programmable transaction
     const tx = new TransactionBlock()
 
@@ -139,13 +142,45 @@ export default function Home({params}: { params: { name: string } }) {
         transactionBlock: tx,
       })
       setRefreshData(true)
-      setLoadingUserTick(false)
       console.log(`burn ${tick} successfully!`, resData)
     } catch (e) {
       setRefreshData(true)
-      setLoadingUserTick(false)
       console.error(`burn ${tick} failed`, e)
     }
+  }
+
+  const loadMore = async () => {
+    if (!hasNextPage) return
+    setLoadingUserTick(true)
+    getOwnedObjectsByCursor(address, nextObjectId)
+      .then((res) => {
+        const data = res.data
+        setNextObjectId(res.nextCursor)
+        setOldCursor(nextObjectId)
+        setHasNextPage(res.hasNextPage)
+        if (data && data.length) {
+          const ownedTicks = data.filter(
+            (item: any) =>
+              item.data &&
+              item.data.content &&
+              item.data.content.type ==
+              `${PACKAGE_ID}::movescription::Movescription`
+          )
+          let acc = 0
+          if (ownedTicks.length) {
+            for (let i = 0; i < ownedTicks.length; i++) {
+              acc += parseInt(ownedTicks[i].data.content.fields.acc)
+            }
+          }
+          console.dir(ownedTicks)
+          setUserTickInfo(ownedTicks)
+        }
+        setLoadingUserTick(false)
+      })
+      .catch((err) => {
+        console.log(err)
+        setLoadingUserTick(false)
+      })
   }
 
   return (
@@ -156,6 +191,8 @@ export default function Home({params}: { params: { name: string } }) {
         data={userTickInfo}
         selected={selectedInscriptions}
         setSelected={setSelectedInscriptions}
+        loadMore={loadMore}
+        hasNextPage={hasNextPage}
       />
     </section>
   )

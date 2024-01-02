@@ -6,6 +6,8 @@ interface MyMRCListProps {
   data: any[]
   selected: any[]
   setSelected: (inscriptions: any[]) => void
+  loadMore: () => void
+  hasNextPage: boolean
 }
 
 export default function MyMRCList(props: MyMRCListProps) {
@@ -48,6 +50,9 @@ export default function MyMRCList(props: MyMRCListProps) {
           })}
         </ul>
       </div>}
+      <div className='flex justify-center mt-5'>
+        {!props.loading && props.hasNextPage && <Button className="w-24 bg-sky-700" onClick={props.loadMore}>NextPage</Button>}
+      </div>
     </div>
   )
 }

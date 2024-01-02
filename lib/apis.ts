@@ -66,6 +66,21 @@ export const getOwnedObjects = async (owner: string) => {
   return result
 }
 
+export const getOwnedObjectsByCursor = async (owner: string, cursor: string | null | undefined) => {
+  const payload = {
+    owner,
+    options: {
+      showContent: true,
+    },
+  }
+
+  if (cursor) {
+    // @ts-ignore
+    payload['cursor'] = cursor
+  }
+
+  return await client.getOwnedObjects(payload)
+}
 
 export const getSpecificCoin = async (owner: string, coinType: string) => {
   let result
