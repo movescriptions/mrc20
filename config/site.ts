@@ -1,7 +1,7 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "MRC20(mainnet)",
+  name: "MRC20",
   description:
     "We provide MRC20 smart inscription mint service.",
   mainNav: [
