@@ -1,23 +1,26 @@
 "use client"
 
-import {useEffect, useState} from "react"
-import {TransactionBlock} from "@mysten/sui.js/transactions"
-import {ReloadIcon} from "@radix-ui/react-icons"
-import {useWallet} from "@suiet/wallet-kit"
+import { useEffect, useState } from "react"
+import { TransactionBlock } from "@mysten/sui.js/transactions"
+import { ReloadIcon } from "@radix-ui/react-icons"
+import * as Progress from "@radix-ui/react-progress"
+import { useWallet } from "@suiet/wallet-kit"
 import NP from "number-precision"
 // @ts-ignore
 import thousandify from "thousandify"
 
-import {DEPLOY_RECORD, PACKAGE_ID} from "@/config/site"
-import {getOwnedObjects, getSuiDynamicFields, getSuiObject} from "@/lib/apis"
-import {Button} from "@/components/ui/button"
+import { DEPLOY_RECORD, PACKAGE_ID } from "@/config/site"
+import { getOwnedObjects, getSuiDynamicFields, getSuiObject } from "@/lib/apis"
+import { Button } from "@/components/ui/button"
 import TickStats from "@/components/tick-stats"
 import UserStats from "@/components/user-stats"
 
+import "../../progress.css"
+
 export const runtime = "edge"
 
-export default function Home({params}: { params: { name: string } }) {
-  const {connected, address, signAndExecuteTransactionBlock} = useWallet()
+export default function Home({ params }: { params: { name: string } }) {
+  const { connected, address, signAndExecuteTransactionBlock } = useWallet()
   const [refreshData, setRefreshData] = useState(false)
   const [loading, setLoading] = useState(false)
   const [mintFee, setMintFee] = useState(0)
@@ -25,6 +28,8 @@ export default function Home({params}: { params: { name: string } }) {
   const [userTickInfo, setUserTickInfo] = useState([])
   const [loadingUserTick, setLoadingUserTick] = useState(false)
   const [tickRecord, setTickRecord] = useState("")
+  const [progress, setProgress] = useState(0)
+
   const name = params.name
 
   useEffect(() => {
@@ -38,9 +43,9 @@ export default function Home({params}: { params: { name: string } }) {
           setTickRecord(tick.id.id)
           console.log(tick.id.id)
           const tickData = [
-            {id: 1, name: "Total SUI Locked", value: ""},
-            {id: 2, name: "Current Epoch", value: ""},
-            {id: 3, name: "Total Transactions", value: ""},
+            { id: 1, name: "Total SUI Locked", value: "" },
+            { id: 2, name: "Current Epoch", value: "" },
+            { id: 3, name: "Total Transactions", value: "" },
           ]
           setLoading(true)
           getSuiObject(tick.id.id)
@@ -59,6 +64,9 @@ export default function Home({params}: { params: { name: string } }) {
                 tickData[1]["value"] = `${
                   parseInt(data.current_epoch) + 1
                 }/${parseInt(data.epoch_count)}`
+                setProgress(
+                  (Number(data.current_epoch) / Number(data.epoch_count)) * 100
+                )
                 tickData[2]["value"] = `${data.total_transactions ?? 0}`
                 setMintFee(parseInt(data.mint_fee) / 1000000000)
                 // @ts-ignore
@@ -81,9 +89,9 @@ export default function Home({params}: { params: { name: string } }) {
   useEffect(() => {
     if (address && mintFee) {
       const userStats = [
-        {id: 1, name: "Your Inscriptions", value: "0"},
-        {id: 2, name: "Minted Tokens", value: "0"},
-        {id: 3, name: "Locked SUI", value: "0"},
+        { id: 1, name: "Your Inscriptions", value: "0" },
+        { id: 2, name: "Minted Tokens", value: "0" },
+        { id: 3, name: "Locked SUI", value: "0" },
       ]
       setLoadingUserTick(true)
       getOwnedObjects(address)
@@ -95,9 +103,9 @@ export default function Home({params}: { params: { name: string } }) {
                 item.data &&
                 item.data.content &&
                 item.data.content.type ==
-                `${PACKAGE_ID}::movescription::Movescription` &&
+                  `${PACKAGE_ID}::movescription::Movescription` &&
                 item.data.content.fields.tick.toLowerCase() ==
-                name.toLowerCase()
+                  name.toLowerCase()
             )
             let acc = 0
             let amount = 0
@@ -125,9 +133,9 @@ export default function Home({params}: { params: { name: string } }) {
   useEffect(() => {
     if (address && refreshData) {
       const userStats = [
-        {id: 1, name: "Your Inscriptions", value: "0"},
-        {id: 2, name: "Minted Tokens", value: "0"},
-        {id: 3, name: "Locked SUI", value: "0"},
+        { id: 1, name: "Your Inscriptions", value: "0" },
+        { id: 2, name: "Minted Tokens", value: "0" },
+        { id: 3, name: "Locked SUI", value: "0" },
       ]
       setLoadingUserTick(true)
       getOwnedObjects(address)
@@ -139,9 +147,9 @@ export default function Home({params}: { params: { name: string } }) {
                 item.data &&
                 item.data.content &&
                 item.data.content.type ==
-                `${PACKAGE_ID}::movescription::Movescription` &&
+                  `${PACKAGE_ID}::movescription::Movescription` &&
                 item.data.content.fields.tick.toLowerCase() ==
-                name.toLowerCase()
+                  name.toLowerCase()
             )
             let acc = 0
             let amount = 0
@@ -171,9 +179,9 @@ export default function Home({params}: { params: { name: string } }) {
   useEffect(() => {
     if (refreshData && address) {
       const tickData = [
-        {id: 1, name: "Total SUI Locked", value: ""},
-        {id: 2, name: "Current Epoch", value: ""},
-        {id: 3, name: "Total Transactions", value: ""},
+        { id: 1, name: "Total SUI Locked", value: "" },
+        { id: 2, name: "Current Epoch", value: "" },
+        { id: 3, name: "Total Transactions", value: "" },
       ]
       setLoading(true)
       getSuiObject(tickRecord)
@@ -239,25 +247,39 @@ export default function Home({params}: { params: { name: string } }) {
 
   return (
     <section className="MContainer p-10">
-      <TickStats data={tickInfo}/>
-      <UserStats data={userTickInfo}/>
+      {progress !== 0 && (
+        <div className="mb-5 flex w-full flex-col items-center justify-center">
+          <Progress.Root className="ProgressRoot" value={progress}>
+            <Progress.Indicator
+              className="ProgressIndicator"
+              style={{ transform: `translateX(-${100 - progress}%)` }}
+            />
+          </Progress.Root>
+          <div className="mt-4 font-bold">{progress.toFixed(2)} %</div>
+        </div>
+      )}
+      <TickStats data={tickInfo} />
+      <UserStats data={userTickInfo} />
       <div className="m-10 flex flex-row justify-center">
         {loading ? (
           <Button disabled>
-            <ReloadIcon className="mr-2 h-4 w-4 animate-spin"/>
+            <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
             Wait for a moment
           </Button>
         ) : (
-          <Button className="h-16 w-48 bg-sky-700 text-2xl font-bold" onClick={() => mint(name, mintFee)}>
+          <Button
+            className="h-16 w-48 bg-sky-700 text-2xl font-bold"
+            onClick={() => mint(name, mintFee)}
+          >
             Mint
           </Button>
         )}
       </div>
       <div className="flex flex-row justify-center text-center">
         All mint fees stored in your inscriptions.
-        <br/>
+        <br />
         You can burn your move inscriptions to get back your mint fees.
-        <br/>
+        <br />
         Your inscriptions will be sent to your address after the end of the
         epoch.
       </div>
