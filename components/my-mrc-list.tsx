@@ -12,7 +12,6 @@ interface MyMRCListProps {
 }
 
 export default function MyMRCList(props: MyMRCListProps) {
-  console.log("🚀 ~ file: my-mrc-list.tsx:15 ~ MyMRCList ~ props:", props)
   return (
     <div>
       {props.loading ? (
