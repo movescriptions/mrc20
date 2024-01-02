@@ -1,4 +1,5 @@
 import {Button} from './ui/button'
+import { Checkbox } from './ui/checkbox'
 
 interface MyMRCListProps {
   loading: boolean
@@ -34,7 +35,7 @@ export default function MyMRCList(props: MyMRCListProps) {
                 </div>
                 <div className='flex justify-between p-2'>
                   <div className='flex flex-col justify-center'>
-                    {/* <Checkbox /> */}
+                    <Checkbox />
                   </div>
                   <div>
                     {/* <Button className='mr-1' size={'sm'}> Split </Button> */}
@@ -51,7 +52,7 @@ export default function MyMRCList(props: MyMRCListProps) {
         </ul>
       </div>}
       <div className='flex justify-center mt-5'>
-        {!props.loading && props.hasNextPage && <Button className="w-24 bg-sky-700" onClick={props.loadMore}>NextPage</Button>}
+        {!props.loading && props.hasNextPage && <Button className="w-24 bg-sky-700" onClick={props.loadMore}>Next Page</Button>}
       </div>
     </div>
   )
