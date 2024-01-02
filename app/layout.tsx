@@ -9,6 +9,8 @@ import {TailwindIndicator} from "@/components/tailwind-indicator"
 import {ThemeProvider} from "@/components/theme-provider"
 import '@suiet/wallet-kit/style.css'
 import Providers from '@/app/providers'
+import Logos from "@/components/logos"
+import Footer from "@/components/footer"
 
 export const metadata: Metadata = {
   title: {
@@ -49,6 +51,8 @@ export default function RootLayout({children}: RootLayoutProps) {
               <SiteHeader/>
             </div>
             <div className="flex-1">{children}</div>
+            <Logos/>
+            <Footer/>
           </div>
           <TailwindIndicator/>
         </Providers>
