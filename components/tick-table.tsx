@@ -64,7 +64,7 @@ export default function TickTable(props: TickTableProps) {
                         {tick.tick}
                       </div>
                       {tick.tick.toLowerCase() == 'move' && <div className="flex flex-col justify-center">
-                        <svg data-testid="icon-verified" viewBox="0 0 22 22" class="aspect-1 w-6">
+                        <svg data-testid="icon-verified" viewBox="0 0 22 22" className="aspect-1 w-6">
                           <linearGradient id="a" x1="4.411" x2="18.083" y1="2.495" y2="21.508"
                                           gradientUnits="userSpaceOnUse">
                             <stop offset="0" stop-color="#f4e72a"></stop>

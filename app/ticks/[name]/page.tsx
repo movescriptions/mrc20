@@ -1,21 +1,26 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { TransactionBlock } from "@mysten/sui.js/transactions"
-import { ReloadIcon } from "@radix-ui/react-icons"
-import * as Progress from "@radix-ui/react-progress"
-import { useWallet } from "@suiet/wallet-kit"
-import NP from "number-precision"
+import { useEffect, useState } from "react";
+import { TransactionBlock } from "@mysten/sui.js/transactions";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import * as Progress from "@radix-ui/react-progress";
+import { useWallet } from "@suiet/wallet-kit";
+import NP from "number-precision";
 // @ts-ignore
-import thousandify from "thousandify"
+import thousandify from "thousandify";
 
-import { DEPLOY_RECORD, PACKAGE_ID } from "@/config/site"
-import { getOwnedObjects, getSuiDynamicFields, getSuiObject } from "@/lib/apis"
-import { Button } from "@/components/ui/button"
-import TickStats from "@/components/tick-stats"
-import UserStats from "@/components/user-stats"
 
-import "../../progress.css"
+
+import { DEPLOY_RECORD, PACKAGE_ID } from "@/config/site";
+import { getOwnedObjects, getSuiDynamicFields, getSuiObject } from "@/lib/apis";
+import { Button } from "@/components/ui/button";
+import TickStats from "@/components/tick-stats";
+import UserStats from "@/components/user-stats";
+
+
+
+import "../../progress.css";
+
 
 export const runtime = "edge"
 
@@ -64,9 +69,10 @@ export default function Home({ params }: { params: { name: string } }) {
                 tickData[1]["value"] = `${
                   parseInt(data.current_epoch) + 1
                 }/${parseInt(data.epoch_count)}`
-                setProgress(
-                  (Number(data.current_epoch) / Number(data.epoch_count)) * 100
-                )
+                let progress =
+                  (Number(data.current_epoch) / Number(data.epoch_count)) * 100>100?100:(Number(data.current_epoch) / Number(data.epoch_count)) * 100
+                  
+                setProgress(progress)
                 tickData[2]["value"] = `${data.total_transactions ?? 0}`
                 setMintFee(parseInt(data.mint_fee) / 1000000000)
                 // @ts-ignore
@@ -189,16 +195,17 @@ export default function Home({ params }: { params: { name: string } }) {
           // @ts-ignore
           const data =
             res.data && res.data && res.data?.content
-              ? res.data?.content.fields
+              ? res.data?.content?.fields
               : null
           if (data) {
+            console.log(data)
             tickData[0]["value"] = `${
               (parseInt(data.total_transactions ?? 0) *
                 parseInt(data.mint_fee)) /
               1000000000
             }`
             tickData[1]["value"] = `${
-              parseInt(data.current_epoch) + 1
+              21600
             }/${parseInt(data.epoch_count)}`
             tickData[2]["value"] = `${data.total_transactions ?? 0}`
             // @ts-ignore
