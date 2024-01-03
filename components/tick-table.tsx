@@ -67,19 +67,19 @@ export default function TickTable(props: TickTableProps) {
                         <svg data-testid="icon-verified" viewBox="0 0 22 22" className="aspect-1 w-6">
                           <linearGradient id="a" x1="4.411" x2="18.083" y1="2.495" y2="21.508"
                                           gradientUnits="userSpaceOnUse">
-                            <stop offset="0" stop-color="#f4e72a"></stop>
-                            <stop offset=".539" stop-color="#cd8105"></stop>
-                            <stop offset=".68" stop-color="#cb7b00"></stop>
-                            <stop offset="1" stop-color="#f4ec26"></stop>
-                            <stop offset="1" stop-color="#f4e72a"></stop>
+                            <stop offset="0" stopColor="#f4e72a"></stop>
+                            <stop offset=".539" stopColor="#cd8105"></stop>
+                            <stop offset=".68" stopColor="#cb7b00"></stop>
+                            <stop offset="1" stopColor="#f4ec26"></stop>
+                            <stop offset="1" stopColor="#f4e72a"></stop>
                           </linearGradient>
                           <linearGradient id="b" x1="5.355" x2="16.361" y1="3.395" y2="19.133"
                                           gradientUnits="userSpaceOnUse">
-                            <stop offset="0" stop-color="#f9e87f"></stop>
-                            <stop offset=".406" stop-color="#e2b719"></stop>
-                            <stop offset=".989" stop-color="#e2b719"></stop>
+                            <stop offset="0" stopColor="#f9e87f"></stop>
+                            <stop offset=".406" stopColor="#e2b719"></stop>
+                            <stop offset=".989" stopColor="#e2b719"></stop>
                           </linearGradient>
-                          <g fill-rule="evenodd" clip-rule="evenodd">
+                          <g fillRule="evenodd" clipRule="evenodd">
                             <path fill="url(#a)"
                                   d="M13.324 3.848 11 1.6 8.676 3.848l-3.201-.453-.559 3.184L2.06 8.095 3.48 11l-1.42 2.904 2.856 1.516.559 3.184 3.201-.452L11 20.4l2.324-2.248 3.201.452.559-3.184 2.856-1.516L18.52 11l1.42-2.905-2.856-1.516-.559-3.184zm-7.09 7.575 3.428 3.428 5.683-6.206-1.347-1.247-4.4 4.795-2.072-2.072z"></path>
                             <path fill="url(#b)"

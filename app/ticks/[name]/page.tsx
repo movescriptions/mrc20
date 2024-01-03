@@ -61,10 +61,9 @@ export default function Home({ params }: { params: { name: string } }) {
                   ? res.data?.content.fields
                   : null
               if (data) {
+                console.log(data);
                 tickData[0]["value"] = `${
-                  (parseInt(data.total_transactions ?? 0) *
-                    parseInt(data.mint_fee)) /
-                  1000000000
+                  (parseInt(data.current_supply ?? 0) /10000)
                 }`
                 tickData[1]["value"] = `${
                   parseInt(data.current_epoch) + 1
@@ -198,14 +197,11 @@ export default function Home({ params }: { params: { name: string } }) {
               ? res.data?.content?.fields
               : null
           if (data) {
-            console.log(data)
             tickData[0]["value"] = `${
-              (parseInt(data.total_transactions ?? 0) *
-                parseInt(data.mint_fee)) /
-              1000000000
+              parseInt(data.current_supply ?? 0) / 10000
             }`
             tickData[1]["value"] = `${
-              21600
+              parseInt(data.current_epoch) + 1
             }/${parseInt(data.epoch_count)}`
             tickData[2]["value"] = `${data.total_transactions ?? 0}`
             // @ts-ignore

@@ -7,11 +7,11 @@
   <defs>
     <linearGradient id="a" x1="20" x2="20" y1="0" y2="30.1" gradientUnits="userSpaceOnUse">
       <stop/>
-      <stop offset="1" stop-color="#3D3D3D"/>
+      <stop offset="1" stopColor="#3D3D3D"/>
     </linearGradient>
     <linearGradient id="b" x1="20" x2="20" y1="0" y2="30.1" gradientUnits="userSpaceOnUse">
       <stop/>
-      <stop offset="1" stop-color="#3D3D3D"/>
+      <stop offset="1" stopColor="#3D3D3D"/>
     </linearGradient>
   </defs>
 </svg>
