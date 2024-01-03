@@ -104,9 +104,8 @@ export default function TickTable(props: TickTableProps) {
                       <Button
                         type="button"
                         className="w-24 bg-sky-700"
-                        disabled={tick.tick.toLowerCase() == 'move'}
                       >
-                        Go to Mint
+                        {tick.tick.toLowerCase() == 'move' ? 'Finish' : 'Go to Mint'}
                       </Button>
                     </a>
                   </td>

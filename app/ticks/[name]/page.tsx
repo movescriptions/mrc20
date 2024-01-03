@@ -270,6 +270,7 @@ export default function Home({ params }: { params: { name: string } }) {
           <Button
             className="h-16 w-48 bg-sky-700 text-2xl font-bold"
             onClick={() => mint(name, mintFee)}
+            disabled={name == "move"}
           >
             Mint
           </Button>
