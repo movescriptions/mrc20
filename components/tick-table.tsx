@@ -60,11 +60,11 @@ export default function TickTable(props: TickTableProps) {
                 <tr key={tick.tick}>
                   <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8">
                     <div className="flex flex-row">
-                      <div className="flex flex-col justify-cente mr-1 pt-0.5">
+                      <div className="justify-cente mr-1 flex flex-col pt-0.5">
                         {tick.tick}
                       </div>
                       {tick.tick.toLowerCase() == 'move' && <div className="flex flex-col justify-center">
-                        <svg data-testid="icon-verified" viewBox="0 0 22 22" class="w-6 aspect-1">
+                        <svg data-testid="icon-verified" viewBox="0 0 22 22" class="aspect-1 w-6">
                           <linearGradient id="a" x1="4.411" x2="18.083" y1="2.495" y2="21.508"
                                           gradientUnits="userSpaceOnUse">
                             <stop offset="0" stop-color="#f4e72a"></stop>
@@ -104,6 +104,7 @@ export default function TickTable(props: TickTableProps) {
                       <Button
                         type="button"
                         className="w-24 bg-sky-700"
+                        disabled={tick.tick.toLowerCase() == 'move'}
                       >
                         Go to Mint
                       </Button>
