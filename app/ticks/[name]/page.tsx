@@ -11,7 +11,7 @@ import thousandify from "thousandify";
 
 
 
-import { DEPLOY_RECORD, PACKAGE_ID } from "@/config/site";
+import { DEPLOY_RECORD, OLD_PACKAGE_ID, PACKAGE_ID } from "@/config/site";
 import { getOwnedObjects, getSuiDynamicFields, getSuiObject } from "@/lib/apis";
 import { Button } from "@/components/ui/button";
 import TickStats from "@/components/tick-stats";
@@ -107,8 +107,9 @@ export default function Home({ params }: { params: { name: string } }) {
               (item: any) =>
                 item.data &&
                 item.data.content &&
-                item.data.content.type ==
-                  `${PACKAGE_ID}::movescription::Movescription` &&
+                (item.data.content.type ==
+                    `${PACKAGE_ID}::movescription::Movescription` || item.data.content.type ==
+                    `${OLD_PACKAGE_ID}::movescription::Movescription`) &&
                 item.data.content.fields.tick.toLowerCase() ==
                   name.toLowerCase()
             )
@@ -151,8 +152,9 @@ export default function Home({ params }: { params: { name: string } }) {
               (item: any) =>
                 item.data &&
                 item.data.content &&
-                item.data.content.type ==
-                  `${PACKAGE_ID}::movescription::Movescription` &&
+                (item.data.content.type ==
+                    `${PACKAGE_ID}::movescription::Movescription` || item.data.content.type ==
+                    `${OLD_PACKAGE_ID}::movescription::Movescription`) &&
                 item.data.content.fields.tick.toLowerCase() ==
                   name.toLowerCase()
             )

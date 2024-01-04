@@ -6,7 +6,7 @@ import {useWallet} from "@suiet/wallet-kit"
 import thousandify from "thousandify"
 import {TransactionBlock} from "@mysten/sui.js/transactions"
 
-import {DEPLOY_RECORD, PACKAGE_ID} from "@/config/site"
+import {DEPLOY_RECORD, OLD_PACKAGE_ID, PACKAGE_ID} from "@/config/site"
 import {getOwnedObjectsByCursor, getSuiDynamicFields} from "@/lib/apis"
 import MyMRCList from "@/components/my-mrc-list"
 
@@ -67,8 +67,9 @@ export default function Home({params}: { params: { name: string } }) {
               (item: any) =>
                 item.data &&
                 item.data.content &&
-                item.data.content.type ==
-                `${PACKAGE_ID}::movescription::Movescription`
+                (item.data.content.type ==
+                `${PACKAGE_ID}::movescription::Movescription` || item.data.content.type ==
+                `${OLD_PACKAGE_ID}::movescription::Movescription`)
             )
             let acc = 0
             if (ownedTicks.length) {
@@ -99,8 +100,8 @@ export default function Home({params}: { params: { name: string } }) {
               (item: any) =>
                 item.data &&
                 item.data.content &&
-                item.data.content.type ==
-                `${PACKAGE_ID}::movescription::Movescription`
+                (`${PACKAGE_ID}::movescription::Movescription` || item.data.content.type ==
+                `${OLD_PACKAGE_ID}::movescription::Movescription`)
             )
             let acc = 0
             if (ownedTicks.length) {
@@ -163,8 +164,8 @@ export default function Home({params}: { params: { name: string } }) {
             (item: any) =>
               item.data &&
               item.data.content &&
-              item.data.content.type ==
-              `${PACKAGE_ID}::movescription::Movescription`
+              (`${PACKAGE_ID}::movescription::Movescription` || item.data.content.type ==
+                `${OLD_PACKAGE_ID}::movescription::Movescription`)
           )
           let acc = 0
           if (ownedTicks.length) {
