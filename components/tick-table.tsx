@@ -9,6 +9,11 @@ interface TickTableProps {
 }
 
 export default function TickTable(props: TickTableProps) {
+  const tickItems = Array.isArray(props.data)
+  ? [...props.data].sort(
+      (a, b) => parseInt(a.start_time_ms) - parseInt(b.start_time_ms)
+    )
+  : []
   return (
     <div className="p-10">
       <div className="flex justify-between">
@@ -56,7 +61,7 @@ export default function TickTable(props: TickTableProps) {
               </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-              {props.data && props.data.map((tick) => (
+              {tickItems && tickItems.map((tick) => (
                 <tr key={tick.tick}>
                   <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-8">
                     <div className="flex flex-row">
