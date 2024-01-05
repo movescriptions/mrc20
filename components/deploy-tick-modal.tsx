@@ -160,7 +160,7 @@ export function DeployTickModal(props: DeployTickModalProps) {
             <Label htmlFor="mint_fee" className="text-right">
               Mint Fee
               <br/>
-              (0-100)
+              (0-100 SUI)
             </Label>
             <Input
               id="mint_fee"
