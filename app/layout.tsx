@@ -11,6 +11,7 @@ import '@suiet/wallet-kit/style.css'
 import Providers from '@/app/providers'
 import Logos from "@/components/logos"
 import Footer from "@/components/footer"
+import {Alert, AlertDescription, AlertTitle,} from "@/components/ui/alert"
 
 export const metadata: Metadata = {
   title: {
@@ -47,6 +48,16 @@ export default function RootLayout({children}: RootLayoutProps) {
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <Providers>
           <div className="relative flex min-h-screen flex-col justify-center">
+            <div className="flex justify-center">
+              <Alert variant="destructive" className="w-800 m-4">
+                <AlertTitle>Please note:</AlertTitle>
+                <AlertDescription>
+                      As the ecosystem of MRC20 grows, we decide to deprecate this site in the near future.
+                      <br />
+                      Please use another community site <a href="https://mrc20.app">https://mrc20.app</a> instead.
+                </AlertDescription>
+              </Alert>
+            </div>
             <div className="MContainer">
               <SiteHeader/>
             </div>
