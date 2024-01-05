@@ -68,8 +68,8 @@ export default function Home({params}: { params: { name: string } }) {
                 item.data &&
                 item.data.content &&
                 (item.data.content.type ==
-                `${PACKAGE_ID}::movescription::Movescription` || item.data.content.type ==
-                `${OLD_PACKAGE_ID}::movescription::Movescription`)
+                  `${PACKAGE_ID}::movescription::Movescription` || item.data.content.type ==
+                  `${OLD_PACKAGE_ID}::movescription::Movescription`)
             )
             let acc = 0
             if (ownedTicks.length) {
@@ -101,7 +101,7 @@ export default function Home({params}: { params: { name: string } }) {
                 item.data &&
                 item.data.content &&
                 (`${PACKAGE_ID}::movescription::Movescription` || item.data.content.type ==
-                `${OLD_PACKAGE_ID}::movescription::Movescription`)
+                  `${OLD_PACKAGE_ID}::movescription::Movescription`)
             )
             let acc = 0
             if (ownedTicks.length) {

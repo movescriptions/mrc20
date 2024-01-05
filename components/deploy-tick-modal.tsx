@@ -143,7 +143,7 @@ export function DeployTickModal(props: DeployTickModalProps) {
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="start_time" className="text-right">
-              Start Time
+              Start Time(ms)
             </Label>
             <Input
               id="start_time"
