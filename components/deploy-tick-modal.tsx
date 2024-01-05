@@ -164,7 +164,7 @@ export function DeployTickModal(props: DeployTickModalProps) {
               id="mint_fee"
               type="number"
               value={deployPayload.mint_fee}
-              onChange={(e) => setDeployPayload({...deployPayload, mint_fee: parseInt(e.target.value ?? 0) ?? 0})}
+              onChange={(e) => setDeployPayload({...deployPayload, mint_fee: parseFloat(e.target.value ?? 0) ?? 0})}
               className="col-span-3"
             />
           </div>
