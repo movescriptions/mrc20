@@ -2,13 +2,20 @@ import {Button} from "./ui/button"
 // @ts-ignore
 import thousandify from 'thousandify'
 import moment from "moment"
+import {DeployTickModal} from "./deploy-tick-modal"
 
 interface TickTableProps {
+  address: string
   data: any[]
-  deploy_tick: () => void
+  deploy_tick: (tick: string, fee_tick_record: string, fee_inscription: string, supply: number, ts: number, epoch: number, fee: number) => void
+  open: boolean
+  setOpen: (open: boolean) => void
 }
 
 export default function TickTable(props: TickTableProps) {
+  const deploy_action = () => {
+    props.setOpen(!props.open)
+  }
   return (
     <div className="p-10">
       <div className="flex justify-between">
@@ -17,10 +24,9 @@ export default function TickTable(props: TickTableProps) {
         </div>
         <div>
           <Button
-            disabled
             type="button"
             className="w-24 bg-sky-700"
-            onClick={props.deploy_tick}
+            onClick={deploy_action}
           >
             Deploy
           </Button>
@@ -116,6 +122,12 @@ export default function TickTable(props: TickTableProps) {
           </div>
         </div>
       </div>
+      <DeployTickModal
+        address={props.address}
+        open={props.open}
+        setOpen={props.setOpen}
+        deploy_tick={props.deploy_tick}
+      />
     </div>
   )
 }

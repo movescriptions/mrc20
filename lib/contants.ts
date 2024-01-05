@@ -1,0 +1,10 @@
+export const MAX_TICK_LENGTH = 32;
+export const MIN_TICK_LENGTH = 4;
+export const MAX_MINT_FEE = 100_000_000_000;
+export const EPOCH_DURATION_MS = 60 * 1000;
+export const MIN_EPOCHS = 2;
+export const EPOCH_MAX_PLAYER = 500;
+export const BASE_EPOCH_COUNT = 60 * 24 * 15;
+export const BASE_TICK_LENGTH_FEE = 1000;
+export const BASE_EPOCH_COUNT_FEE = 100;
+export const PROTOCOL_TICK = "MOVE";

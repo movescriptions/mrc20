@@ -1,5 +1,5 @@
-import { Button } from "./ui/button"
-import { Checkbox } from "./ui/checkbox"
+import {Button} from "./ui/button"
+import {Checkbox} from "./ui/checkbox"
 
 interface MyMRCListProps {
   loading: boolean
@@ -40,16 +40,16 @@ export default function MyMRCList(props: MyMRCListProps) {
                       <div className="mt-8 flex flex-1 flex-col p-4">
                         {/* <img className="mx-auto h-32 w-32 flex-shrink-0 rounded-full" src={person.imageUrl} alt="" /> */}
                         {`Tick: ${inscription.data.content.fields.tick}`}
-                        <br />
+                        <br/>
                         {`Amount: ${inscription.data.content.fields.amount}`}
-                        <br />
+                        <br/>
                         {`Locked SUI: ${
                           inscription.data.content.fields.acc / 1000000000
                         }`}
                       </div>
                       <div className="flex justify-between p-2">
                         <div className="flex flex-col justify-center">
-                          <Checkbox />
+                          <Checkbox/>
                         </div>
                         <div>
                           {/* <Button className='mr-1' size={'sm'}> Split </Button> */}

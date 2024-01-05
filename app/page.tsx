@@ -12,6 +12,7 @@ export default function IndexPage() {
   const [loading, setLoading] = useState(false)
   const [ticks, setTicks] = useState([])
   const [refreshData, setRefreshData] = useState(false)
+  const [openDeployTickModal, setOpenDeployTickModal] = useState(false)
 
   useEffect(() => {
     setLoading(true)
@@ -42,21 +43,23 @@ export default function IndexPage() {
     }
   }, [refreshData])
 
-  const deploy_move = async () => {
+  const deploy_move = async (tick: string, fee_tick_record: string, fee_inscription: string, supply: number, ts: number, epoch: number, fee: number) => {
     if (!connected) return
 
     // define a programmable transaction
     const tx = new TransactionBlock()
 
     tx.moveCall({
-      target: `${PACKAGE_ID}::movescription::deploy`,
+      target: `${PACKAGE_ID}::movescription::deploy_v2`,
       arguments: [
         tx.object(DEPLOY_RECORD),
-        tx.pure("tests"),
-        tx.pure(100_0000_0000),
-        tx.pure(Date.now() + 120000),
-        tx.pure(60 * 24 * 15),
-        tx.pure(1000),
+        tx.object(fee_tick_record),
+        tx.object(fee_inscription),
+        tx.pure(tick),
+        tx.pure(supply),
+        tx.pure(ts),
+        tx.pure(epoch),
+        tx.pure(fee),
         tx.object("0x6")
       ],
       typeArguments: [],
@@ -78,7 +81,13 @@ export default function IndexPage() {
 
   return (
     <section className="MContainer">
-      <TickList deploy_tick={deploy_move} data={ticks}/>
+      <TickList
+        address={address}
+        open={openDeployTickModal}
+        setOpen={setOpenDeployTickModal}
+        deploy_tick={deploy_move}
+        data={ticks}
+      />
     </section>
   )
 }
