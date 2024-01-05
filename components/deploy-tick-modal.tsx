@@ -124,8 +124,9 @@ export function DeployTickModal(props: DeployTickModalProps) {
             </Label>
             <Input
               id="supply"
+              type="number"
               value={deployPayload.supply}
-              onChange={(e) => setDeployPayload({...deployPayload, supply: parseInt(e.target.value) ?? 0})}
+              onChange={(e) => setDeployPayload({...deployPayload, supply: parseInt(e.target.value ?? 0) ?? 0})}
               className="col-span-3"
             />
           </div>
@@ -137,7 +138,7 @@ export function DeployTickModal(props: DeployTickModalProps) {
               id="epoch"
               type="number"
               value={deployPayload.epoch}
-              onChange={(e) => setDeployPayload({...deployPayload, epoch: parseInt(e.target.value) ?? 0})}
+              onChange={(e) => setDeployPayload({...deployPayload, epoch: parseInt(e.target.value ?? 0) ?? 0})}
               className="col-span-3"
             />
           </div>
@@ -147,8 +148,9 @@ export function DeployTickModal(props: DeployTickModalProps) {
             </Label>
             <Input
               id="start_time"
+              type="number"
               value={deployPayload.start_time}
-              onChange={(e) => setDeployPayload({...deployPayload, start_time: parseInt(e.target.value) ?? 0})}
+              onChange={(e) => setDeployPayload({...deployPayload, start_time: parseInt(e.target.value ?? 0) ?? 0})}
               className="col-span-3"
             />
           </div>
@@ -158,8 +160,9 @@ export function DeployTickModal(props: DeployTickModalProps) {
             </Label>
             <Input
               id="mint_fee"
+              type="number"
               value={deployPayload.mint_fee}
-              onChange={(e) => setDeployPayload({...deployPayload, mint_fee: parseInt(e.target.value ?? 0)})}
+              onChange={(e) => setDeployPayload({...deployPayload, mint_fee: parseInt(e.target.value ?? 0) ?? 0})}
               className="col-span-3"
             />
           </div>
