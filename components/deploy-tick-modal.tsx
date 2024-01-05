@@ -170,7 +170,7 @@ export function DeployTickModal(props: DeployTickModalProps) {
           </div>
         </div>}
         {step == 1 && <div>
-          {`You will pay ${deployFee} $MOVE to deploy this tick.`}
+          {`You will burn ${deployFee} $MOVE to deploy this tick.`}
         </div>}
         {step == 2 && <div>
           {`Sorry, you need ${deployFee} $MOVE to deploy this tick.`}
