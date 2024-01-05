@@ -17,11 +17,11 @@ export default function Logos() {
               height={48}
             />
           </a>
-          <a href="https://surf.tech/" target="_blank">
+          <a href="https://sftlabs.io/" target="_blank">
             <img
               className="col-span-1 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1"
               src="sft_labs.svg"
-              alt="Surf Wallet"
+              alt="SFT Labs"
               width={80}
               height={48}
             />
