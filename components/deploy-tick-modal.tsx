@@ -159,6 +159,8 @@ export function DeployTickModal(props: DeployTickModalProps) {
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="mint_fee" className="text-right">
               Mint Fee
+              <br/>
+              (0-100)
             </Label>
             <Input
               id="mint_fee"
