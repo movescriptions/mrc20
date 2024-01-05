@@ -32,6 +32,7 @@ export function DeployTickModal(props: DeployTickModalProps) {
   const [step, setStep] = useState(0)
   const [validInscriptions, setValidInscriptions] = useState([])
   const [loadingUserTick, setLoadingUserTick] = useState(false)
+  const [deployFee, setDeployFee] = useState(0)
 
   const checkMoveBalance = async () => {
     const result = []
@@ -57,6 +58,7 @@ export function DeployTickModal(props: DeployTickModalProps) {
 
         if (ownedTicks.length) {
           const fee = calculate_deploy_fee(deployPayload.tick, deployPayload.epoch)
+          setDeployFee(fee)
           console.dir(fee)
           for (let i = 0; i < ownedTicks.length; i++) {
             if (parseInt(ownedTicks[i].data.content.fields.amount) >= fee) {
@@ -74,7 +76,7 @@ export function DeployTickModal(props: DeployTickModalProps) {
 
     if (result.length) {
       setValidInscriptions(result)
-      props.deploy_tick(deployPayload.tick, FEE_TICK_RECORD, result[0].data?.content.fields.id.id, deployPayload.supply, deployPayload.start_time, deployPayload.epoch, deployPayload.mint_fee * 1000000000)
+      setStep(1)
     } else {
       setStep(2)
     }
@@ -167,11 +169,15 @@ export function DeployTickModal(props: DeployTickModalProps) {
             />
           </div>
         </div>}
+        {step == 1 && <div>
+          {`You will pay ${deployFee} $MOVE to deploy this tick.`}
+        </div>}
         {step == 2 && <div>
-          {`Sorry, you don't have enough balance to deploy this tick.`}
+          {`Sorry, you need ${deployFee} $MOVE to deploy this tick.`}
         </div>}
         <DialogFooter>
           {step == 0 && <Button onClick={checkMoveBalance}>Deploy</Button>}
+          {step == 1 && <Button onClick={() => props.deploy_tick(deployPayload.tick, FEE_TICK_RECORD, validInscriptions[0].data?.content.fields.id.id, deployPayload.supply, deployPayload.start_time, deployPayload.epoch, deployPayload.mint_fee * 1000000000)}>Confirm</Button>}
         </DialogFooter>
       </DialogContent>
     </Dialog>
