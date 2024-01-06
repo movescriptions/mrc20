@@ -10,8 +10,8 @@ export const siteConfig = {
       href: "/",
     },
     {
-      title: "Marketplace(coming soon)",
-      href: "/",
+      title: "Marketplace",
+      href: "https://mrc20.app/market/",
     },
     {
       title: "My Assets",
