@@ -106,7 +106,7 @@ export default function TickTable(props: TickTableProps) {
                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{tick.mint_fee / 1000000000}</td>
                   <td
                     className="relative flex justify-end whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 lg:pr-8">
-                    <a href={`/ticks/${tick.tick.toLowerCase()}`}>
+                    <a href={`https://mrc20.app/ticks/${tick.tick.toLowerCase()}/`}>
                       <Button
                         type="button"
                         className="w-24 bg-sky-700"
